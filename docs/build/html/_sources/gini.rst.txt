@@ -9,6 +9,6 @@ Usage
 
 .. code-block:: shell
 
-    stark gini --mcool /cluster/home/Gaoruixiang/test/example/data/gini \
-        --output /cluster/home/Gaoruixiang/test/example/result/gini/test_gini.csv \
+    stark gini --mcool/absolute/path/to/data/gini \
+        --output/absolute/path/to/result/gini/test_gini.csv \
         --resolution 10000,40000,100000 

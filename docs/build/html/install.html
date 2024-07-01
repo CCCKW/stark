@@ -107,15 +107,14 @@
 There are two ways to install stark:</p>
 <section id="method-1">
 <h2>Method 1<a class="headerlink" href="#method-1" title="Link to this heading"></a></h2>
-<p>This installation method is offline.</p>
+<p>This installation method is based on github.</p>
 <section id="step1">
 <h3>step1.<a class="headerlink" href="#step1" title="Link to this heading"></a></h3>
 <p>create a new environment</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sc3dg<span class="w"> </span>python&gt;<span class="o">=</span><span class="m">3</span>.9
 conda<span class="w"> </span>activate<span class="w"> </span>sc3dg
-wget
-tar<span class="w"> </span>-xvf
-<span class="nb">cd</span>
+get<span class="w"> </span>clone<span class="w"> </span>https://github.com/CCCKW/stark.git
+<span class="nb">cd</span><span class="w"> </span>stark-main
 pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 python<span class="w"> </span>setup.py<span class="w"> </span>install
 </pre></div>
@@ -125,7 +124,8 @@ python<span class="w"> </span>setup.py<span class="w"> </span>install
 <h3>step2.<a class="headerlink" href="#step2" title="Link to this heading"></a></h3>
 <p>prepare index and enzyme bed</p>
 <p>STARK has its own format for reading reference genomes and enzyme bed files. For convenience, we provide an automated program for building indexes and enzyme bed files:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>index<span class="w"> </span>-g<span class="w"> </span>hg38<span class="w"> </span>-a<span class="w"> </span>bwa<span class="w"> </span>-p<span class="w"> </span>./save/path<span class="w"> </span>-e<span class="w"> </span>MboI,DpnII,BglII,HpyCH4V
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>index<span class="w"> </span>-g<span class="w"> </span>hg38<span class="w"> </span>-a<span class="w"> </span>bwa<span class="w"> </span>-p<span class="w"> </span>./save/path1<span class="w"> </span>-e<span class="w"> </span>MboI,DpnII,BglII,HpyCH4V
+stark<span class="w"> </span>index<span class="w"> </span>-g<span class="w"> </span>hg38<span class="w"> </span>-a<span class="w"> </span>bowtie2<span class="w"> </span>-p<span class="w"> </span>./save/path2<span class="w"> </span>-e<span class="w"> </span>MboI,DpnII,BglII,HpyCH4V
 </pre></div>
 </div>
 <p>Parameter description:</p>
@@ -139,7 +139,7 @@ python<span class="w"> </span>setup.py<span class="w"> </span>install
 </section>
 <section id="method-2">
 <h2>Method 2<a class="headerlink" href="#method-2" title="Link to this heading"></a></h2>
-<p>Alse, you can install stark online by the following steps:</p>
+<p>Also, you can install stark online by the following steps:</p>
 <section id="id1">
 <h3>Step1.<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <p>create a new environment</p>
@@ -150,8 +150,8 @@ conda<span class="w"> </span>activate<span class="w"> </span>sc3dg
 </section>
 <section id="id2">
 <h3>Step2.<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
-<p>install stark based on pip</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>sc3dg
+<p>install stark based on conda.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>sc3dg
 </pre></div>
 </div>
 </section>

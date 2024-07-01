@@ -93,8 +93,8 @@
 <p>Single-cell Hi-C (scHi-C) allows the study of cell-to-cell variability in chromatin structure and dynamics. However, the high level of noise inherent in current scHi-C protocols necessitates careful assessment of data quality before biological conclusions can be drawn. Here, we present GiniQC, which quantifies unevenness in the distribution of inter-chromosomal reads in the scHi-C contact matrix to measure the level of noise. Our examples show the utility of GiniQC in assessing the quality of scHi-C data as a complement to existing quality control measures.</p>
 <p>To calculate the GiniQC, you need to provide the path to the mcool file and the output path to save the results.</p>
 <p>Usage</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>gini<span class="w"> </span>--mcool<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/data/gini<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/result/gini/test_gini.csv<span class="w"> </span><span class="se">\</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>gini<span class="w"> </span>--mcool/absolute/path/to/data/gini<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output/absolute/path/to/result/gini/test_gini.csv<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--resolution<span class="w"> </span><span class="m">10000</span>,40000,100000
 </pre></div>
 </div>

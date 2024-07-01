@@ -6,7 +6,7 @@ There are two ways to install stark:
 
 Method 1
 ++++++++++++++++++++
-This installation method is offline.
+This installation method is based on github.
 
 step1.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -17,9 +17,8 @@ create a new environment
 
     conda create -n sc3dg python>=3.9
     conda activate sc3dg
-    wget
-    tar -xvf
-    cd
+    get clone https://github.com/CCCKW/stark.git
+    cd stark-main
     pip install -r requirements.txt
     python setup.py install
 
@@ -33,7 +32,8 @@ STARK has its own format for reading reference genomes and enzyme bed files. For
 
 .. code-block:: shell
 
-    stark index -g hg38 -a bwa -p ./save/path -e MboI,DpnII,BglII,HpyCH4V
+    stark index -g hg38 -a bwa -p ./save/path1 -e MboI,DpnII,BglII,HpyCH4V
+    stark index -g hg38 -a bowtie2 -p ./save/path2 -e MboI,DpnII,BglII,HpyCH4V
 
 Parameter description:
 
@@ -45,7 +45,7 @@ Parameter description:
 Method 2
 ++++++++++++++
 
-Alse, you can install stark online by the following steps:
+Also, you can install stark online by the following steps:
 
 Step1.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,16 +57,18 @@ create a new environment
 
     conda create -n sc3dg python>=3.9
     conda activate sc3dg
+    
+
 
 
 Step2.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-install stark based on pip
+install stark based on conda.
 
 .. code-block:: shell
 
-   pip install sc3dg
+   conda install sc3dg
 
 step3.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

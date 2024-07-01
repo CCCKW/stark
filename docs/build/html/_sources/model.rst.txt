@@ -15,8 +15,8 @@ To model the 3D structure
 
 .. code-block:: shell
 
-    stark model   --pair /cluster/home/Gaoruixiang/test/example/data/3dmodel/test.pairs.gz \
-        --output /cluster/home/Gaoruixiang/test/example/result/3dmodel/test_100.pdb \
+    stark model   --pair /absolute/path/to/data/3dmodel/test.pairs.gz \
+        --output /absolute/path/to/result/3dmodel/test_100.pdb \
         --num_models 5 \
         --iter_steps 500 \
         --iter_res 8e6,4e6,2e6,4e5,2e5,1e5

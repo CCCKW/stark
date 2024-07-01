@@ -18,9 +18,9 @@ Upon completion of the iterations, we obtain 𝜋𝑡+1 which serves as the impu
 
 .. code-block:: shell
 
-    stark impute --mcool-path /cluster/home/Gaoruixiang/test/example/data/gini/dipC_GSE117874_hum \
+    stark impute --mcool-path/absolute/path/to/data/gini/dipC_GSE117874_hum \
     --resolution 1000000 \
-    --output /cluster/home/Gaoruixiang/test/example/result/impute \
+    --output/absolute/path/to/result/impute \
     --nthread 2
 
 

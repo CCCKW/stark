@@ -100,9 +100,9 @@
 <li><p>Convergence: Repeat the iteration until π converges, when <span class="math notranslate nohighlight">\(|| 𝜋𝑡+1 - 𝜋𝑡 ||&lt; 10^{-6}\)</span>.</p></li>
 </ol>
 <p>Upon completion of the iterations, we obtain 𝜋𝑡+1 which serves as the imputated single-cell contact matrix.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>impute<span class="w"> </span>--mcool-path<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/data/gini/dipC_GSE117874_hum<span class="w"> </span><span class="se">\</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>impute<span class="w"> </span>--mcool-path/absolute/path/to/data/gini/dipC_GSE117874_hum<span class="w"> </span><span class="se">\</span>
 --resolution<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>
---output<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/result/impute<span class="w"> </span><span class="se">\</span>
+--output/absolute/path/to/result/impute<span class="w"> </span><span class="se">\</span>
 --nthread<span class="w"> </span><span class="m">2</span>
 </pre></div>
 </div>

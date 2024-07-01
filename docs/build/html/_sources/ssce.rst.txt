@@ -14,8 +14,8 @@ To calculate the SSCE, you can use the following command:
 
 .. code-block:: shell
 
-    stark ssce --mcool /cluster/home/Gaoruixiang/test/example/data/test_ssce \
-    --genome /cluster/home/Kangwen/common/mm10/mm10.fa \
-    --output /cluster/home/Gaoruixiang/test/example/result/ssce \
+    stark ssce --mcool /absolute/path/to/data/test_ssce \
+    --genome /absolute/path/to/mm10/mm10.fa \
+    --output /absolute/path/to/result/ssce \
     --nproc 2
 

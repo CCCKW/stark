@@ -131,3 +131,8 @@ To conduct the EmptyCells method, use the command below:
    stark emptycells --mcool-path /absolute/path/to/mcool \
         --output /absolute/path/to/output
 
+
+The results includes two csv file and one rank-plot png file:
+    1. res.csv: in this file, the column "ambient" is False means the barcode is a high-quality barcode, and True means the barcode is a low-quality barcode.
+    2. matrix.csv: it records the data for calculating the p-value.
+    3. rank-plot.png: the rank-plot of the cells.
