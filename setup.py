@@ -21,8 +21,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 # chmod u+x -R sc3dg
 cmd = 'chmod u+x -R sc3dg'
 os.system(cmd)
-
-
+os.makedirs('sc3dg/bedtools/bin', exist_ok=True)
 
 
 
@@ -82,6 +81,8 @@ def install_samtools():
     print("Running make install command...")
     subprocess.check_call(['make', 'install'], cwd=samtools_dir)
     print(f"Samtools installed in {install_dir}")
+
+    
 
 
 class CustomInstallCommand(install):
@@ -268,8 +269,8 @@ setup(
         
                              ],
     package_data={
+        'sc3dg.bedtools': ['bin/*'],
         'sc3dg.bedtools': ['**/*'], 
-
         'sc3dg.cutadapt': ['*.py', '*.pyi', '*.so'],
         'sc3dg.nanoplexer': ['*'],
        'sc3dg.cutadapt': ['*'],
@@ -279,17 +280,12 @@ setup(
             'utils/BarcodeIdentification_v1.2.0.jar',
             'model/*.pyx', 'pairtools/lib/*.pyx',
             'bowtie2/*', 'minimap2/*', 'bwa/*',
-        
             'cooltools/*',
             'cooltools/cooltools/api/*.pyx',
             'cooltools/cooltools/cli/*',
             'cooltools/cooltools/lib/*',
             'cooltools/cooltools/*',
             'sc3dg/samtools/*',
-
-
-
-            
             'bismark/*'],
         'sc3dg.cooltools.cooltools.lib': ['*.pyx', '*.pxd'],
         'sc3dg.samtools': ['htslib-1.19.1/**/*'],
