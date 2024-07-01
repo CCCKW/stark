@@ -5,6 +5,20 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../..'))
+
+# Mock imports
+from unittest.mock import MagicMock
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+        return MagicMock()
+
+MOCK_MODULES = ['numpy', 'cython', 'pysam', 'setuptools', 'sc3dg.bwa', 'sc3dg.bowtie2', 'sc3dg.minimap2', 'sc3dg.nanoplexer', 'sc3dg.bedtools']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 project = 'STARK'
 copyright = '2024, Wulab'
