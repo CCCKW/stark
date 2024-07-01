@@ -15,19 +15,11 @@ To model the 3D structure
 
 .. code-block:: shell
 
-    method='nuc'
-    pair="./data/test.pairs.gz"
-    output="test.pdb"
-    num_models=5
-    iter_res="8e6,4e6,2e6,4e5,2e5,1e5"
-    iter_steps=100
-    stark model --pair $pair \
-        --output $output \
-        --num_models $num_models \
-        --particle $res \
-        --iter_res $iter_res \
-        --iter_steps $ iter_steps
-
+    stark model   --pair /cluster/home/Gaoruixiang/test/example/data/3dmodel/test.pairs.gz \
+        --output /cluster/home/Gaoruixiang/test/example/result/3dmodel/test_100.pdb \
+        --num_models 5 \
+        --iter_steps 500 \
+        --iter_res 8e6,4e6,2e6,4e5,2e5,1e5
 
 
 The reuslt can be visualized in pymol as follows:

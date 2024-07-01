@@ -6,7 +6,7 @@ There are two ways to install stark:
 
 Method 1
 ++++++++++++++++++++
-This installation method requires additional installation of comparison software, which takes a little more time.
+This installation method is offline.
 
 step1.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -15,40 +15,16 @@ create a new environment
 
 .. code-block:: bash
 
-    conda create -n sc3dg python=3.9
+    conda create -n sc3dg python>=3.9
     conda activate sc3dg
-    pip install numpy pysam cython
-    pip install sc3dg
+    wget
+    tar -xvf
+    cd
+    pip install -r requirements.txt
+    python setup.py install
+
 
 step2.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-install the alignemtn software
-
-STARK is based on software such as bwa, bowtie2, minimap2, fastp, hicexplorer, samtools, bedtools, bismark, nanoplexer, etc. Please make sure you have installed the corresponding software before using it. You can write the following code into a shell script and run it.
-
-.. code-block:: bash
-
-    # install bwa
-    yes|conda install -c bioconda bwa
-    # install bowtie2
-    yes|conda install -c bioconda bowtie2
-    # install minimap2
-    yes|conda install -c bioconda minimap2
-    # install fastp
-    yes|conda install -c bioconda fastp
-    # install hicexplorer
-    yes|conda install -c bioconda hicexplorer
-    # install samtools
-    yes|conda install -c bioconda samtools
-    # install bedtools
-    yes|conda install -c bioconda bedtools
-    # install bismark
-    yes|conda install -c bioconda bismark
-    # install nanoplexer
-    yes|conda install -c bioconda nanoplexer
-
-step3.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 prepare index and enzyme bed
@@ -69,25 +45,28 @@ Parameter description:
 Method 2
 ++++++++++++++
 
-Also, if you want to use the stark quickly, you can choose the installation below:
+Alse, you can install stark online by the following steps:
 
 Step1.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Download and unpack the .tar.gz file of stark
+
+create a new environment
 
 .. code-block:: bash
 
-    tar -xvf
+    conda create -n sc3dg python>=3.9
+    conda activate sc3dg
+
 
 Step2.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Prepend the STARK directory to your $PATH. This will allow you to invoke the STARK command.
+install stark based on pip
 
 .. code-block:: shell
 
-    export PATH=/opt/stark:$PATH
+   pip install sc3dg
 
 step3.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -10,33 +10,33 @@
             ]
         ],
         "depends": [
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/htslib_util.h",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/htslib/htslib/bgzf.h",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/htslib/htslib/cram.h",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/htslib/htslib/faidx.h",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/htslib/htslib/hfile.h",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/htslib/htslib/hts.h",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/htslib/htslib/kstring.h",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/htslib/htslib/sam.h",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/htslib/htslib/tbx.h",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/htslib/htslib/vcf.h",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/htslib/htslib/vcfutils.h",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/pysam_stream.h"
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/htslib_util.h",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/htslib/htslib/bgzf.h",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/htslib/htslib/cram.h",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/htslib/htslib/faidx.h",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/htslib/htslib/hfile.h",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/htslib/htslib/hts.h",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/htslib/htslib/kstring.h",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/htslib/htslib/sam.h",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/htslib/htslib/tbx.h",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/htslib/htslib/vcf.h",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/htslib/htslib/vcfutils.h",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/pysam_stream.h"
         ],
         "extra_link_args": [
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/libctabixproxies.cpython-39-x86_64-linux-gnu.so",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/libcfaidx.cpython-39-x86_64-linux-gnu.so",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/libcsamfile.cpython-39-x86_64-linux-gnu.so",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/libcvcf.cpython-39-x86_64-linux-gnu.so",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/libcbcf.cpython-39-x86_64-linux-gnu.so",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/libctabix.cpython-39-x86_64-linux-gnu.so",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/libchtslib.cpython-39-x86_64-linux-gnu.so"
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/libctabixproxies.cpython-39-x86_64-linux-gnu.so",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/libcfaidx.cpython-39-x86_64-linux-gnu.so",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/libcsamfile.cpython-39-x86_64-linux-gnu.so",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/libcvcf.cpython-39-x86_64-linux-gnu.so",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/libcbcf.cpython-39-x86_64-linux-gnu.so",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/libctabix.cpython-39-x86_64-linux-gnu.so",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/libchtslib.cpython-39-x86_64-linux-gnu.so"
         ],
         "include_dirs": [
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/htslib",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/pysam/include/samtools",
-            "/cluster/home/Gaoruixiang/.conda/envs/a/lib/python3.9/site-packages/numpy/core/include"
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/htslib",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/pysam/include/samtools",
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/numpy/_core/include"
         ],
         "language": "c",
         "name": "sc3dg.pairtools.lib.parse_pysam",

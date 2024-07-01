@@ -6,7 +6,7 @@ include sc3dg/utils/*.jar
 include sc3dg/pairtools/lib/*.pyx
 include sc3dg/pairtools/lib/*.cpp
 include sc3dg/pairtools/*.c
-
+include sc3dg/utils/*
 include sc3dg/samtools/**/*
 include sc3dg/samtools/*
 include sc3dg/utils/BarcodeIdentification_v1.2.0.jar

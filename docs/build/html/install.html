@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>install the STARK &mdash; STARK 0.0.18 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
@@ -55,13 +55,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#method-1">Method 1</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#step1">step1.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step2">step2.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step3">step3.</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#method-2">Method 2</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id1">Step1.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id2">Step2.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">step3.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step3">step3.</a></li>
 </ul>
 </li>
 </ul>
@@ -74,6 +73,8 @@
 <li class="toctree-l1"><a class="reference internal" href="merge.html">Merge the topN/bottomN cell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ssce.html">Spatial Structure Capture Efficiency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gini.html">calculate the GiniQC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emptycells.html">EmptyCells</a></li>
 </ul>
 
         </div>
@@ -106,44 +107,22 @@
 There are two ways to install stark:</p>
 <section id="method-1">
 <h2>Method 1<a class="headerlink" href="#method-1" title="Link to this heading"></a></h2>
-<p>This installation method requires additional installation of comparison software, which takes a little more time.</p>
+<p>This installation method is offline.</p>
 <section id="step1">
 <h3>step1.<a class="headerlink" href="#step1" title="Link to this heading"></a></h3>
 <p>create a new environment</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sc3dg<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sc3dg<span class="w"> </span>python&gt;<span class="o">=</span><span class="m">3</span>.9
 conda<span class="w"> </span>activate<span class="w"> </span>sc3dg
-pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>pysam<span class="w"> </span>cython
-pip<span class="w"> </span>install<span class="w"> </span>sc3dg
+wget
+tar<span class="w"> </span>-xvf
+<span class="nb">cd</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+python<span class="w"> </span>setup.py<span class="w"> </span>install
 </pre></div>
 </div>
 </section>
 <section id="step2">
 <h3>step2.<a class="headerlink" href="#step2" title="Link to this heading"></a></h3>
-<p>install the alignemtn software</p>
-<p>STARK is based on software such as bwa, bowtie2, minimap2, fastp, hicexplorer, samtools, bedtools, bismark, nanoplexer, etc. Please make sure you have installed the corresponding software before using it. You can write the following code into a shell script and run it.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install bwa</span>
-yes<span class="p">|</span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>bwa
-<span class="c1"># install bowtie2</span>
-yes<span class="p">|</span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>bowtie2
-<span class="c1"># install minimap2</span>
-yes<span class="p">|</span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>minimap2
-<span class="c1"># install fastp</span>
-yes<span class="p">|</span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>fastp
-<span class="c1"># install hicexplorer</span>
-yes<span class="p">|</span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>hicexplorer
-<span class="c1"># install samtools</span>
-yes<span class="p">|</span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>samtools
-<span class="c1"># install bedtools</span>
-yes<span class="p">|</span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>bedtools
-<span class="c1"># install bismark</span>
-yes<span class="p">|</span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>bismark
-<span class="c1"># install nanoplexer</span>
-yes<span class="p">|</span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>nanoplexer
-</pre></div>
-</div>
-</section>
-<section id="step3">
-<h3>step3.<a class="headerlink" href="#step3" title="Link to this heading"></a></h3>
 <p>prepare index and enzyme bed</p>
 <p>STARK has its own format for reading reference genomes and enzyme bed files. For convenience, we provide an automated program for building indexes and enzyme bed files:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>index<span class="w"> </span>-g<span class="w"> </span>hg38<span class="w"> </span>-a<span class="w"> </span>bwa<span class="w"> </span>-p<span class="w"> </span>./save/path<span class="w"> </span>-e<span class="w"> </span>MboI,DpnII,BglII,HpyCH4V
@@ -160,23 +139,24 @@ yes<span class="p">|</span>conda<span class="w"> </span>install<span class="w"> 
 </section>
 <section id="method-2">
 <h2>Method 2<a class="headerlink" href="#method-2" title="Link to this heading"></a></h2>
-<p>Also, if you want to use the stark quickly, you can choose the installation below:</p>
+<p>Alse, you can install stark online by the following steps:</p>
 <section id="id1">
 <h3>Step1.<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
-<p>Download and unpack the .tar.gz file of stark</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar<span class="w"> </span>-xvf
+<p>create a new environment</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sc3dg<span class="w"> </span>python&gt;<span class="o">=</span><span class="m">3</span>.9
+conda<span class="w"> </span>activate<span class="w"> </span>sc3dg
 </pre></div>
 </div>
 </section>
 <section id="id2">
 <h3>Step2.<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
-<p>Prepend the STARK directory to your $PATH. This will allow you to invoke the STARK command.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/opt/stark:<span class="nv">$PATH</span>
+<p>install stark based on pip</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>sc3dg
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h3>step3.<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<section id="step3">
+<h3>step3.<a class="headerlink" href="#step3" title="Link to this heading"></a></h3>
 <p>prepare index and enzyme bed</p>
 <p>STARK has its own format for reading reference genomes and enzyme bed files. For convenience, we provide an automated program for building indexes and enzyme bed files:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>index<span class="w"> </span>-g<span class="w"> </span>hg38<span class="w"> </span>-a<span class="w"> </span>bwa<span class="w"> </span>-p<span class="w"> </span>./save/path<span class="w"> </span>-e<span class="w"> </span>MboI,DpnII,BglII,HpyCH4V

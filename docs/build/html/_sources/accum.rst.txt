@@ -21,7 +21,7 @@ degree of overlap, indicating higher consistency in the detected 3D structures.
 
 .. code-block:: shell
 
-    stark --mcool ./data/mcool \
-        --output ./data/analysis \
-        --resolution 40000 \
-        --top_num 300
+    stark accum   --mcool /cluster/home/Gaoruixiang/test/example/data/nDS \
+    --output /cluster/home/Gaoruixiang/test/example/result/accum \
+    --resolution 40000 \
+    --top_num 30 \

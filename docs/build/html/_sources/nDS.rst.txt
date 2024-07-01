@@ -7,7 +7,6 @@ Now, STARK support to calculate 4 kind of detection score, as follows:
 * chromosome territory detection score
 * chromosome TADs detection score
 * chromosome A/B compartment detection score
-* chromosome Centromere detection score
 
 It is worth noting that nDS calculations often take a long time.
 
@@ -36,13 +35,13 @@ calculate the chromosome territory detection score
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: shell
 
-    stark nDS --mcool ./data/mcool \
-        --output ./output/terr.nds.txt \
+    stark nDS --mcool /absolute/path//data/nDS \
+        --output /absolute/path//result/nDS/terr.txt\
         --resolution 1000000 \
         --mode terr \
-        --top_num -1 \
-        --describe test \
-        --epoch 10 \
+        --top_num 300 \
+        --epoch 50 \
+        --genome /absolute/path//hg38/hg38.fa
 
 If top_num is -1, the nDS of all cells is calculated; otherwise, topN is calculated.
 And The recommended setting for epoch is 10 or more
@@ -50,12 +49,15 @@ And The recommended setting for epoch is 10 or more
 And the output like this:
 
 +------------+------------+------------+
-| Header 1   | Header 2   | Header 3   |
+|            | chr1_chr2  | chr1_chr3  |
 +============+============+============+
-| Cell 1     | Cell 2     | Cell 3     |
+| Cell 1     | 0.0549252  | 0.0496     |
 +------------+------------+------------+
-| Cell 4     | Cell 5     | Cell 6     |
+| Cell 2     | 0.0549252  | 0.05123    |
 +------------+------------+------------+
+
+Row is the cell, and column is the chromosome interaction,
+You can average the values in the same row to get the nDS of the cell
 
 
 
@@ -92,36 +94,12 @@ If the genome file is not provided, the nDS of A/B compartment will not be calcu
 
 And the output like this:
 
-+------------+------------+------------+
-| Header 1   | Header 2   | Header 3   |
-+============+============+============+
-| Cell 1     | Cell 2     | Cell 3     |
-+------------+------------+------------+
-| Cell 4     | Cell 5     | Cell 6     |
-+------------+------------+------------+
++------------+------------+
+|            | ab         |
++============+============+
+| Cell 1     | .0197576   |
++------------+------------+
+| Cell 4     | 0.01627818 |
++------------+------------+
 
-
-calculate the chromosome Centromere detection score
-++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: shell
-
-    stark nDS --mcool ./data/mcool \
-        --output ./output/centromere.nds.txt \
-        --resolution 1000000 \
-        --mode centromere \
-        --top_num -1 \
-        --describe test \
-        --epoch 10 \
-
-Centromere interactions were defined as interactions between positions 3 Mb and 13 Mb of each chromosome.
-
-And the output like this:
-
-+------------+------------+------------+
-| Header 1   | Header 2   | Header 3   |
-+============+============+============+
-| Cell 1     | Cell 2     | Cell 3     |
-+------------+------------+------------+
-| Cell 4     | Cell 5     | Cell 6     |
-+------------+------------+------------+
 

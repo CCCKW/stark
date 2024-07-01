@@ -35,13 +35,13 @@ calculate the chromosome territory detection score
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: shell
 
-    stark nDS --mcool /cluster/home/Gaoruixiang/test/example/data/nDS \
-        --output /cluster/home/Gaoruixiang/test/example/result/nDS/terr.txt\
+    stark nDS --mcool /absolute/path//data/nDS \
+        --output /absolute/path//result/nDS/terr.txt\
         --resolution 1000000 \
         --mode terr \
         --top_num 300 \
         --epoch 50 \
-        --genome /cluster/home/Kangwen/common/hg38/hg38.fa
+        --genome /absolute/path//hg38/hg38.fa
 
 If top_num is -1, the nDS of all cells is calculated; otherwise, topN is calculated.
 And The recommended setting for epoch is 10 or more
@@ -49,11 +49,11 @@ And The recommended setting for epoch is 10 or more
 And the output like this:
 
 +------------+------------+------------+
-|            | chr1_chr2  | chr1_chr3 |
+|            | chr1_chr2  | chr1_chr3  |
 +============+============+============+
-| Cell 1     | 0.0549252  | 0.0496    |
+| Cell 1     | 0.0549252  | 0.0496     |
 +------------+------------+------------+
-| Cell 2     | 0.0549252  | 0.05123   |
+| Cell 2     | 0.0549252  | 0.05123    |
 +------------+------------+------------+
 
 Row is the cell, and column is the chromosome interaction,

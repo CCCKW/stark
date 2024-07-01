@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calculate the normlized detection score &mdash; STARK 0.0.18 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
@@ -62,13 +62,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#calculate-the-chromosome-territory-detection-score">calculate the chromosome territory detection score</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#calculate-the-chromosome-tads-detection-score">calculate the chromosome TADs detection score</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#calculate-the-chromosome-a-b-compartment-detection-score">calculate the chromosome A/B compartment detection score</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#calculate-the-chromosome-centromere-detection-score">calculate the chromosome Centromere detection score</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="accum.html">Accumlated Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="merge.html">Merge the topN/bottomN cell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ssce.html">Spatial Structure Capture Efficiency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gini.html">calculate the GiniQC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emptycells.html">EmptyCells</a></li>
 </ul>
 
         </div>
@@ -102,7 +103,6 @@
 <li><p>chromosome territory detection score</p></li>
 <li><p>chromosome TADs detection score</p></li>
 <li><p>chromosome A/B compartment detection score</p></li>
-<li><p>chromosome Centromere detection score</p></li>
 </ul>
 <p>It is worth noting that nDS calculations often take a long time.</p>
 <p>The data needed for the test can be downloaded from <a class="reference external" href="www.baidu.com">here</a></p>
@@ -119,13 +119,13 @@
 </section>
 <section id="calculate-the-chromosome-territory-detection-score">
 <h2>calculate the chromosome territory detection score<a class="headerlink" href="#calculate-the-chromosome-territory-detection-score" title="Link to this heading"></a></h2>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>nDS<span class="w"> </span>--mcool<span class="w"> </span>./data/mcool<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output<span class="w"> </span>./output/terr.nds.txt<span class="w"> </span><span class="se">\</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>nDS<span class="w"> </span>--mcool<span class="w"> </span>/absolute/path//data/nDS<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>/absolute/path//result/nDS/terr.txt<span class="se">\</span>
 <span class="w">    </span>--resolution<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--mode<span class="w"> </span>terr<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--top_num<span class="w"> </span>-1<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--describe<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--epoch<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--top_num<span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--epoch<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--genome<span class="w"> </span>/absolute/path//hg38/hg38.fa
 </pre></div>
 </div>
 <p>If top_num is -1, the nDS of all cells is calculated; otherwise, topN is calculated.
@@ -133,22 +133,24 @@ And The recommended setting for epoch is 10 or more</p>
 <p>And the output like this:</p>
 <table class="docutils align-default">
 <thead>
-<tr class="row-odd"><th class="head"><p>Header 1</p></th>
-<th class="head"><p>Header 2</p></th>
-<th class="head"><p>Header 3</p></th>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>chr1_chr2</p></th>
+<th class="head"><p>chr1_chr3</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Cell 1</p></td>
-<td><p>Cell 2</p></td>
-<td><p>Cell 3</p></td>
+<td><p>0.0549252</p></td>
+<td><p>0.0496</p></td>
 </tr>
-<tr class="row-odd"><td><p>Cell 4</p></td>
-<td><p>Cell 5</p></td>
-<td><p>Cell 6</p></td>
+<tr class="row-odd"><td><p>Cell 2</p></td>
+<td><p>0.0549252</p></td>
+<td><p>0.05123</p></td>
 </tr>
 </tbody>
 </table>
+<p>Row is the cell, and column is the chromosome interaction,
+You can average the values in the same row to get the nDS of the cell</p>
 </section>
 <section id="calculate-the-chromosome-tads-detection-score">
 <h2>calculate the chromosome TADs detection score<a class="headerlink" href="#calculate-the-chromosome-tads-detection-score" title="Link to this heading"></a></h2>
@@ -179,51 +181,16 @@ And The recommended setting for epoch is 10 or more</p>
 <p>And the output like this:</p>
 <table class="docutils align-default">
 <thead>
-<tr class="row-odd"><th class="head"><p>Header 1</p></th>
-<th class="head"><p>Header 2</p></th>
-<th class="head"><p>Header 3</p></th>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>ab</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Cell 1</p></td>
-<td><p>Cell 2</p></td>
-<td><p>Cell 3</p></td>
+<td><p>.0197576</p></td>
 </tr>
 <tr class="row-odd"><td><p>Cell 4</p></td>
-<td><p>Cell 5</p></td>
-<td><p>Cell 6</p></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="calculate-the-chromosome-centromere-detection-score">
-<h2>calculate the chromosome Centromere detection score<a class="headerlink" href="#calculate-the-chromosome-centromere-detection-score" title="Link to this heading"></a></h2>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>nDS<span class="w"> </span>--mcool<span class="w"> </span>./data/mcool<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output<span class="w"> </span>./output/centromere.nds.txt<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--resolution<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--mode<span class="w"> </span>centromere<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--top_num<span class="w"> </span>-1<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--describe<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--epoch<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
-</pre></div>
-</div>
-<p>Centromere interactions were defined as interactions between positions 3 Mb and 13 Mb of each chromosome.</p>
-<p>And the output like this:</p>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Header 1</p></th>
-<th class="head"><p>Header 2</p></th>
-<th class="head"><p>Header 3</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Cell 1</p></td>
-<td><p>Cell 2</p></td>
-<td><p>Cell 3</p></td>
-</tr>
-<tr class="row-odd"><td><p>Cell 4</p></td>
-<td><p>Cell 5</p></td>
-<td><p>Cell 6</p></td>
+<td><p>0.01627818</p></td>
 </tr>
 </tbody>
 </table>

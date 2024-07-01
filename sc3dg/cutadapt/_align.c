@@ -11,7 +11,7 @@
         ],
         "depends": [],
         "include_dirs": [
-            "/cluster/home/Kangwen/anaconda3/envs/stark/lib/python3.9/site-packages/numpy/core/include"
+            "/tmp/pip-build-env-1yu6bal8/overlay/lib/python3.9/site-packages/numpy/_core/include"
         ],
         "name": "sc3dg.cutadapt._align",
         "sources": [

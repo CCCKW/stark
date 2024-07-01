@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>calculate the GiniQC &mdash; STARK 0.0.18 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
@@ -22,6 +22,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="detect the loop" href="loop.html" />
     <link rel="prev" title="Spatial Structure Capture Efficiency" href="ssce.html" /> 
 </head>
 
@@ -59,6 +60,8 @@
 <li class="toctree-l1"><a class="reference internal" href="merge.html">Merge the topN/bottomN cell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ssce.html">Spatial Structure Capture Efficiency</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">calculate the GiniQC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emptycells.html">EmptyCells</a></li>
 </ul>
 
         </div>
@@ -90,8 +93,9 @@
 <p>Single-cell Hi-C (scHi-C) allows the study of cell-to-cell variability in chromatin structure and dynamics. However, the high level of noise inherent in current scHi-C protocols necessitates careful assessment of data quality before biological conclusions can be drawn. Here, we present GiniQC, which quantifies unevenness in the distribution of inter-chromosomal reads in the scHi-C contact matrix to measure the level of noise. Our examples show the utility of GiniQC in assessing the quality of scHi-C data as a complement to existing quality control measures.</p>
 <p>To calculate the GiniQC, you need to provide the path to the mcool file and the output path to save the results.</p>
 <p>Usage</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>gini<span class="w"> </span>--mcool<span class="w"> </span>./data/mcool<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output<span class="w"> </span>./output/giniqc.txt
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>gini<span class="w"> </span>--mcool<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/data/gini<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/result/gini/test_gini.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--resolution<span class="w"> </span><span class="m">10000</span>,40000,100000
 </pre></div>
 </div>
 </section>
@@ -101,6 +105,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="ssce.html" class="btn btn-neutral float-left" title="Spatial Structure Capture Efficiency" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="loop.html" class="btn btn-neutral float-right" title="detect the loop" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

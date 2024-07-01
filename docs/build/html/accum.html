@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accumlated Analysis &mdash; STARK 0.0.18 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
@@ -62,6 +62,8 @@
 <li class="toctree-l1"><a class="reference internal" href="merge.html">Merge the topN/bottomN cell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ssce.html">Spatial Structure Capture Efficiency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gini.html">calculate the GiniQC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emptycells.html">EmptyCells</a></li>
 </ul>
 
         </div>
@@ -105,10 +107,10 @@ data at the <span class="math notranslate nohighlight">\(i^{th}\)</span> iterati
 in the final aggregated cell. The IoU is a metric that quantifies the overlap
 between two sets of TAD boundaries. A higher IoU value signifies a greater
 degree of overlap, indicating higher consistency in the detected 3D structures.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>--mcool<span class="w"> </span>./data/mcool<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output<span class="w"> </span>./data/analysis<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--resolution<span class="w"> </span><span class="m">40000</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--top_num<span class="w"> </span><span class="m">300</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>accum<span class="w">   </span>--mcool<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/data/nDS<span class="w"> </span><span class="se">\</span>
+--output<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/result/accum<span class="w"> </span><span class="se">\</span>
+--resolution<span class="w"> </span><span class="m">40000</span><span class="w"> </span><span class="se">\</span>
+--top_num<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="se">\</span>
 </pre></div>
 </div>
 </section>

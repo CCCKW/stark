@@ -31,6 +31,7 @@ asdasdasd
    ssce
    gini
    loop
+   emptycells
 
 Follow cooler development on `GitHub <hhttps://github.com/CCCKW/stark>`_.
 

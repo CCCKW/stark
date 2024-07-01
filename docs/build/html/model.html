@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>3D model the sc3DG &mdash; STARK 0.0.18 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
@@ -60,6 +60,8 @@
 <li class="toctree-l1"><a class="reference internal" href="merge.html">Merge the topN/bottomN cell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ssce.html">Spatial Structure Capture Efficiency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gini.html">calculate the GiniQC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emptycells.html">EmptyCells</a></li>
 </ul>
 
         </div>
@@ -95,18 +97,11 @@ establishing the 3D structure. Then, Monte Carlo simulation is employed to find 
 that align with these constraints.
 We refer to the nuc_dynamics for the code implementation of this function.</p>
 <p>To model the 3D structure</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">method</span><span class="o">=</span><span class="s1">&#39;nuc&#39;</span>
-<span class="nv">pair</span><span class="o">=</span><span class="s2">&quot;./data/test.pairs.gz&quot;</span>
-<span class="nv">output</span><span class="o">=</span><span class="s2">&quot;test.pdb&quot;</span>
-<span class="nv">num_models</span><span class="o">=</span><span class="m">5</span>
-<span class="nv">iter_res</span><span class="o">=</span><span class="s2">&quot;8e6,4e6,2e6,4e5,2e5,1e5&quot;</span>
-<span class="nv">iter_steps</span><span class="o">=</span><span class="m">100</span>
-stark<span class="w"> </span>model<span class="w"> </span>--pair<span class="w"> </span><span class="nv">$pair</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output<span class="w"> </span><span class="nv">$output</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--num_models<span class="w"> </span><span class="nv">$num_models</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--particle<span class="w"> </span><span class="nv">$res</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--iter_res<span class="w"> </span><span class="nv">$iter_res</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--iter_steps<span class="w"> </span>$<span class="w"> </span>iter_steps
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>model<span class="w">   </span>--pair<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/data/3dmodel/test.pairs.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/result/3dmodel/test_100.pdb<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--num_models<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--iter_steps<span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--iter_res<span class="w"> </span>8e6,4e6,2e6,4e5,2e5,1e5
 </pre></div>
 </div>
 <p>The reuslt can be visualized in pymol as follows:</p>

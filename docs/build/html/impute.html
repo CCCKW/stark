@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Get imputed contact map &mdash; STARK 0.0.18 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
@@ -62,6 +62,8 @@
 <li class="toctree-l1"><a class="reference internal" href="merge.html">Merge the topN/bottomN cell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ssce.html">Spatial Structure Capture Efficiency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gini.html">calculate the GiniQC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emptycells.html">EmptyCells</a></li>
 </ul>
 
         </div>
@@ -98,9 +100,10 @@
 <li><p>Convergence: Repeat the iteration until π converges, when <span class="math notranslate nohighlight">\(|| 𝜋𝑡+1 - 𝜋𝑡 ||&lt; 10^{-6}\)</span>.</p></li>
 </ol>
 <p>Upon completion of the iterations, we obtain 𝜋𝑡+1 which serves as the imputated single-cell contact matrix.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>impute<span class="w"> </span>--mcool<span class="w"> </span>./data/mcool<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--resolution<span class="w"> </span><span class="m">500000</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output<span class="w"> </span>./data/imputed
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>impute<span class="w"> </span>--mcool-path<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/data/gini/dipC_GSE117874_hum<span class="w"> </span><span class="se">\</span>
+--resolution<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>
+--output<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/result/impute<span class="w"> </span><span class="se">\</span>
+--nthread<span class="w"> </span><span class="m">2</span>
 </pre></div>
 </div>
 <p>The result like this:</p>

@@ -233,6 +233,14 @@ setup(
                 include_dirs=[np.get_include()],
                 define_macros=[('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
             ),
+             Extension(
+                'sc3dg.pairtools.lib.regions',
+                sources=['sc3dg/pairtools/lib/regions.pyx'],
+                include_dirs=[np.get_include()],
+                extra_compile_args=['-std=c++11'],
+                language="c++",
+                
+            ),
          Extension(
         "sc3dg.cooltools.cooltools.lib._numutils",
         ["sc3dg/cooltools/cooltools/lib/_numutils.pyx"],

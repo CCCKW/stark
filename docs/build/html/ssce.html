@@ -5,7 +5,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Spatial Structure Capture Efficiency &mdash; STARK 0.0.18 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
@@ -62,6 +62,8 @@
 <li class="toctree-l1"><a class="reference internal" href="merge.html">Merge the topN/bottomN cell</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Spatial Structure Capture Efficiency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gini.html">calculate the GiniQC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emptycells.html">EmptyCells</a></li>
 </ul>
 
         </div>
@@ -93,14 +95,14 @@
 <p>Spatial  Structure Capture Efficiency (SSCE) is introduced as a quantitative metric designed to evaluate the efficacy of single-cell sequencing in capturing the chromotin structural information. It is crucial to recognize that while the total number of sequenced contacts can vary significantly among cells, a lower count does not necessarily indicate inferior sequencing quality. Such a result may simply reflect the capture of a specific subset of the chromotin architecture, which can still have substantial biological implications. Conversely, a high number of detected contacts does not guarantee the biological relevance of these interactions or confirm an accurate representation of the cell’s chromotin spatial organization. With this in mind, we introduce a novel indicator, termed Spatial Structure Capture Efficiency (SSCE), which quantifies the proportion of intra-cellular contacts contributing to the formation of the cell’s chromotin architecture. This metric is essential for a more nuanced understanding of the structural fidelity of single-cell sequencing data.The SSCE are calculated as follows:
 <span class="math notranslate nohighlight">\(SSCE=\frac{T+A}{I+C}\)</span>,
 where  <span class="math notranslate nohighlight">\(T\)</span>, <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(I\)</span>, and <span class="math notranslate nohighlight">\(C\)</span> are derived from fitting the following regression:</p>
-<p><span class="math notranslate nohighlight">\(C_i～B+I*interi+T*tadi+A*abi\)</span></p>
+<p><span class="math notranslate nohighlight">\(C_i～B+I*inter_i+T*tad_i+A*ab_i\)</span></p>
 <p>In this equation, <span class="math notranslate nohighlight">\(C_i\)</span> denotes the aggregate count of contacts associated with chromosome <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(inter_i\)</span> represents the number of interactions that chromosome <span class="math notranslate nohighlight">\(i\)</span> engages in with other chromosomes in the genome. <span class="math notranslate nohighlight">\(tad_i\)</span>  corresponds to the count of TAD boundaries identified on chromosome <span class="math notranslate nohighlight">\(i\)</span> at a resolution of 40 kilobases, which is pivotal for elucidating chromatin domain organization. <span class="math notranslate nohighlight">\(ab_i\)</span> signifies the count of A/B compartment switches for chromosome <span class="math notranslate nohighlight">\(i\)</span> determined at a resolution of 100 kilobases, providing insights into the chromatin’s compartmentalization. The constant <span class="math notranslate nohighlight">\(B\)</span> in the equation serves two critical roles. Firstly, it accounts for contacts that cannot be attributed to any specific chromosomal structure feature. Secondly, it includes contacts that may result from technical or systematic errors during the sequencing process. To ensure the accuracy of the model, any chromosomes where all variables are nullified are systematically excluded from the regression analysis.
 Considering the inherent collinearity between the counts of <span class="math notranslate nohighlight">\(ab_i\)</span> and <span class="math notranslate nohighlight">\(tad_i\)</span>, we employ Ridge regression as our fitting method. The coefficients derived from the Ridge regression model are then utilized to compute the SSCE. It is logical to infer that higher values of structural features <span class="math notranslate nohighlight">\(ab_i\)</span> and <span class="math notranslate nohighlight">\(tad_i\)</span>, along with lower values of non-structural features <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(I\)</span>, contribute to higher SSCE scores. An elevated SSCE score, therefore, implies a more thorough and precise depiction of the single-cell chomotin structure.</p>
 <p>To calculate the SSCE, you can use the following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>--mcool<span class="w"> </span>./data/mcool<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--genome<span class="w"> </span>./genome.fa<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output<span class="w"> </span>./output<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--nproc<span class="w"> </span><span class="m">4</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>ssce<span class="w"> </span>--mcool<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/data/test_ssce<span class="w"> </span><span class="se">\</span>
+--genome<span class="w"> </span>/cluster/home/Kangwen/common/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+--output<span class="w"> </span>/cluster/home/Gaoruixiang/test/example/result/ssce<span class="w"> </span><span class="se">\</span>
+--nproc<span class="w"> </span><span class="m">2</span>
 </pre></div>
 </div>
 </section>
