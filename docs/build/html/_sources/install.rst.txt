@@ -23,6 +23,12 @@ create a new environment
     python setup.py install
 
 
+Attention: it take a little time to install the requirements and the STARK package. We encapsulate most of the packages with complex dependencies. 
+
+It 's recommended to install the requirements first, then install the STARK package.
+
+Alse, you can use the nohup command to install the package in the background.
+
 step2.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -21,7 +21,7 @@ To get started：
 - Install STARK
 - Read the documentation and see the Jupyter Notebook walkthrough.
 - test data can be download form [Zenodo](https://zenodo.org/records/12598215/files/sc3dg.tar.gz)
-- Many more single-cell Hi-C data are available on our website
+- Many more single-cell three dimension genome sequencing data are available on our website
 
 # Installation
 
