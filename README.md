@@ -2,7 +2,7 @@
 
 STARK is a  software for processing various types of single-cell Hi-C sequencing data, which currently includes the  single-cell Hi-C technologies as follows:
 
-- scHiC<a
+- scHiC
 - scHi-C+
 - Dip-C
 - HiRES
@@ -39,8 +39,8 @@ We suggest creating a new python environment to install STARK before installatio
 
 ```
 
-For using stark , you can visit the [tutorial](www.baidu.com)
+For usage and more detailed information of stark , you can visit the [tutorial](https://sc3dg.readthedocs.io/en/latest/overview.html)
 
 
-Also, you can visit the [scNucleome](www.baidu.com) for more detailed information.
+Also, you can visit the [scNucleome](https://www.baidu.com) for more detailed information.
 
