@@ -1,35 +1,47 @@
 import click
-from sc3dg.commands.count import count
-from sc3dg.commands.model import model
+import importlib
 
-from sc3dg.commands.impute import impute
-from sc3dg.commands.ssce import ssce
-from sc3dg.commands.merge import merge
-from sc3dg.commands.accum import accum
-from sc3dg.commands.nDS import nDS
-from  sc3dg.commands.gini import gini
-from sc3dg.commands.loop import loop
-from sc3dg.commands.index import index
-from sc3dg.commands.emptycells import emptycells
+class LazyGroup(click.Group):
+    def get_command(self, ctx, cmd_name):
+        try:
+            module = importlib.import_module(f'sc3dg.commands.{cmd_name}')
+            return getattr(module, cmd_name)
+        except (ImportError, AttributeError) as e:
+            click.echo(f"Error loading command {cmd_name}: {e}")
+            return None
 
-
-@click.group()
+@click.group(cls=LazyGroup)
 def cli():
+    '''
+        stark is a software package for single-cell three-dimensional genome sequencing data(sc3dg-seq) preprocessing and analysis.
+
+        Usage: stark [OPTIONS] COMMAND [ARGS]...
+
+        Options:
+            --help  Show this message and exit.
+
+        Commands: 
+        
+            count           the main pipeline of Hi-C \n
+            model           3D genome model ,generate the pdb file \n 
+            index           generate the index \n
+            emptycells      emptycells for QC \n
+            impute          impute the Hi-C data \n
+            ssce            cal Spatial Structure Capture Efficiency \n
+            merge           merge the Hi-C data \n
+            accum           accumulative analysis \n
+            nDS             calculate the nDS \n
+            gini            calculate the gini \n
+            loop            detect the loop
+            
+
+    '''
     pass
 
-
-cli.add_command(count)
-cli.add_command(model)
-cli.add_command(impute)
-cli.add_command(ssce)
-cli.add_command(merge)
-cli.add_command(accum)
-cli.add_command(nDS)
-cli.add_command(gini)
-cli.add_command(loop)
-cli.add_command(index)
-cli.add_command(emptycells)
-
+commands = [
+    'count', 'model', 'impute', 'ssce', 'merge', 'accum',
+    'nDS', 'gini', 'loop', 'index', 'emptycells'
+]
 
 if __name__ == '__main__':
     cli()

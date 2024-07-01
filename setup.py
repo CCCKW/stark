@@ -115,15 +115,15 @@ spec = importlib.util.spec_from_file_location(
 htslib = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(htslib)
 
-# 读取requirements.txt
+
 with open('requirements.txt') as f:
     install_requires = f.read().splitlines()
 
-# 获取扩展模块
+
 def get_ext_modules():
     extensions = []
     
-    # 添加 parse_pysam.pyx 到扩展模块
+    
     parse_pysam_path = os.path.join("sc3dg", "pairtools", "lib", "parse_pysam.pyx")
     if os.path.exists(parse_pysam_path):
         import pysam
@@ -138,7 +138,7 @@ def get_ext_modules():
             )
         )
     
-    # 添加其他扩展模块
+
     src_files = glob.glob(
         os.path.join(os.path.dirname(__file__), "sc3dg", "pairtools", "lib", "*.pyx")
     )
@@ -174,13 +174,13 @@ def bedtools_files(directory):
 bedtools_dir = os.path.join(os.path.dirname(__file__), 'sc3dg', 'bedtools')
 bedtools_files = bedtools_files(bedtools_dir)
 
-# 设置
+
 setup(
     name="sc3dg",
     version="0.0.66",
     description="A toolkit for processing single cell Hi-C data",
-    author="Your Name",  # 替换为实际作者名
-    author_email="your.email@example.com",  # 添加作者邮箱
+    author="starker", 
+    author_email="caikangwen@126.com", 
     cmdclass={
         'build_ext': bedtools_CustomBuild,
         'build_nanoplexer': NanoplexerCustomBuild,

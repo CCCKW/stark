@@ -109,7 +109,7 @@ def count(output, fastq, logging, type, enzyme, resolution, index, sample, exist
         print('*****num of worker is more than num of sample*****')
         p = Pool(opt['worker'])
         for fq in fastq_log:
-            # 根据type来允许不同的流程
+
            run_exec(opt['type'],opt, fq,log_out)
         p.close()
         p.join()
