@@ -1,0 +1,107 @@
+install the STARK
+========================
+
+We suggest creating a new Python environment to install STARK before installation. STARK is based on Python ≥ 3.9.
+There are two ways to install stark:
+
+Method 1
+++++++++++++++++++++
+This installation method requires additional installation of comparison software, which takes a little more time.
+
+step1.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+create a new environment
+
+.. code-block:: bash
+
+    conda create -n sc3dg python=3.9
+    conda activate sc3dg
+    pip install numpy pysam cython
+    pip install sc3dg
+
+step2.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+install the alignemtn software
+
+STARK is based on software such as bwa, bowtie2, minimap2, fastp, hicexplorer, samtools, bedtools, bismark, nanoplexer, etc. Please make sure you have installed the corresponding software before using it. You can write the following code into a shell script and run it.
+
+.. code-block:: bash
+
+    # install bwa
+    yes|conda install -c bioconda bwa
+    # install bowtie2
+    yes|conda install -c bioconda bowtie2
+    # install minimap2
+    yes|conda install -c bioconda minimap2
+    # install fastp
+    yes|conda install -c bioconda fastp
+    # install hicexplorer
+    yes|conda install -c bioconda hicexplorer
+    # install samtools
+    yes|conda install -c bioconda samtools
+    # install bedtools
+    yes|conda install -c bioconda bedtools
+    # install bismark
+    yes|conda install -c bioconda bismark
+    # install nanoplexer
+    yes|conda install -c bioconda nanoplexer
+
+step3.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+prepare index and enzyme bed
+
+STARK has its own format for reading reference genomes and enzyme bed files. For convenience, we provide an automated program for building indexes and enzyme bed files:
+
+.. code-block:: shell
+
+    stark index -g hg38 -a bwa -p ./save/path -e MboI,DpnII,BglII,HpyCH4V
+
+Parameter description:
+
+- **-g**: The genome version you want to assemble, currently supports hg38, hg19, mm10, mm9.
+- **-a**: The software used for assembly, different software produces different index files.
+- **-p**: Path where the results are stored.
+- **-e**: The required enzyme bed file, can be single or multiple inputs (different genomes correspond to different enzyme files).
+
+Method 2
+++++++++++++++
+
+Also, if you want to use the stark quickly, you can choose the installation below:
+
+Step1.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Download and unpack the .tar.gz file of stark
+
+.. code-block:: bash
+
+    tar -xvf
+
+Step2.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Prepend the STARK directory to your $PATH. This will allow you to invoke the STARK command.
+
+.. code-block:: shell
+
+    export PATH=/opt/stark:$PATH
+
+step3.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+prepare index and enzyme bed
+
+STARK has its own format for reading reference genomes and enzyme bed files. For convenience, we provide an automated program for building indexes and enzyme bed files:
+
+.. code-block:: shell
+
+    stark index -g hg38 -a bwa -p ./save/path -e MboI,DpnII,BglII,HpyCH4V
+
+Parameter description:
+
+- **-g**: The genome version you want to assemble, currently supports hg38, hg19, mm10, mm9.
+- **-a**: The software used for assembly, different software produces different index files.
+- **-p**: Path where the results are stored.
+- **-e**: The required enzyme bed file, can be single or multiple inputs (different genomes correspond to different enzyme files).

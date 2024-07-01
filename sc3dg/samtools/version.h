@@ -1,0 +1,8 @@
+#define SAMTOOLS_VERSION "1.19.2"
+#define SAMTOOLS_CC "gcc -std=gnu11"
+#define SAMTOOLS_CPPFLAGS "-I/cluster/home/Kangwen/opt/bzip2/include"
+#define SAMTOOLS_CFLAGS "-g -O2"
+#define SAMTOOLS_LDFLAGS "-L/cluster/home/Kangwen/opt/bzip2/lib -Wl,-R/cluster/home/Kangwen/opt/bzip2/lib"
+#define SAMTOOLS_HTSDIR "htslib-1.19.1"
+#define SAMTOOLS_LIBS ""
+#define SAMTOOLS_CURSES_LIB ""
