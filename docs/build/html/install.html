@@ -52,15 +52,9 @@
 <p class="caption" role="heading"><span class="caption-text">CLI_TUTORIAL</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">install the STARK</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#method-1">Method 1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#command">Command</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#step1">step1.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step2">step2.</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#method-2">Method 2</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">Step1.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Step2.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step3">step3.</a></li>
 </ul>
 </li>
 </ul>
@@ -105,8 +99,8 @@
 <h1>install the STARK<a class="headerlink" href="#install-the-stark" title="Link to this heading"></a></h1>
 <p>We suggest creating a new Python environment to install STARK before installation. STARK is based on Python ≥ 3.9.
 There are two ways to install stark:</p>
-<section id="method-1">
-<h2>Method 1<a class="headerlink" href="#method-1" title="Link to this heading"></a></h2>
+<section id="command">
+<h2>Command<a class="headerlink" href="#command" title="Link to this heading"></a></h2>
 <p>This installation method is based on github.</p>
 <section id="step1">
 <h3>step1.<a class="headerlink" href="#step1" title="Link to this heading"></a></h3>
@@ -129,40 +123,6 @@ python<span class="w"> </span>setup.py<span class="w"> </span>install
 <p>STARK has its own format for reading reference genomes and enzyme bed files. For convenience, we provide an automated program for building indexes and enzyme bed files:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>index<span class="w"> </span>-g<span class="w"> </span>hg38<span class="w"> </span>-a<span class="w"> </span>bwa<span class="w"> </span>-p<span class="w"> </span>./save/path1<span class="w"> </span>-e<span class="w"> </span>MboI,DpnII,BglII,HpyCH4V
 stark<span class="w"> </span>index<span class="w"> </span>-g<span class="w"> </span>hg38<span class="w"> </span>-a<span class="w"> </span>bowtie2<span class="w"> </span>-p<span class="w"> </span>./save/path2<span class="w"> </span>-e<span class="w"> </span>MboI,DpnII,BglII,HpyCH4V
-</pre></div>
-</div>
-<p>Parameter description:</p>
-<ul class="simple">
-<li><p><strong>-g</strong>: The genome version you want to assemble, currently supports hg38, hg19, mm10, mm9.</p></li>
-<li><p><strong>-a</strong>: The software used for assembly, different software produces different index files.</p></li>
-<li><p><strong>-p</strong>: Path where the results are stored.</p></li>
-<li><p><strong>-e</strong>: The required enzyme bed file, can be single or multiple inputs (different genomes correspond to different enzyme files).</p></li>
-</ul>
-</section>
-</section>
-<section id="method-2">
-<h2>Method 2<a class="headerlink" href="#method-2" title="Link to this heading"></a></h2>
-<p>Also, you can install stark online by the following steps:</p>
-<section id="id1">
-<h3>Step1.<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
-<p>create a new environment</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sc3dg<span class="w"> </span>python&gt;<span class="o">=</span><span class="m">3</span>.9
-conda<span class="w"> </span>activate<span class="w"> </span>sc3dg
-</pre></div>
-</div>
-</section>
-<section id="id2">
-<h3>Step2.<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
-<p>install stark based on conda.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>sc3dg
-</pre></div>
-</div>
-</section>
-<section id="step3">
-<h3>step3.<a class="headerlink" href="#step3" title="Link to this heading"></a></h3>
-<p>prepare index and enzyme bed</p>
-<p>STARK has its own format for reading reference genomes and enzyme bed files. For convenience, we provide an automated program for building indexes and enzyme bed files:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>index<span class="w"> </span>-g<span class="w"> </span>hg38<span class="w"> </span>-a<span class="w"> </span>bwa<span class="w"> </span>-p<span class="w"> </span>./save/path<span class="w"> </span>-e<span class="w"> </span>MboI,DpnII,BglII,HpyCH4V
 </pre></div>
 </div>
 <p>Parameter description:</p>
