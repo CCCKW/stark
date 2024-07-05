@@ -165,15 +165,7 @@ def get_ext_modules():
 
 
 
-def bedtools_files(directory):
-    paths = []
-    for (path, directories, filenames) in os.walk(directory):
-        for filename in filenames:
-            paths.append(os.path.join(path, filename))
-    return paths
-
-bedtools_dir = os.path.join(os.path.dirname(__file__), 'sc3dg', 'bedtools')
-bedtools_files = bedtools_files(bedtools_dir)
+    
 
 
 setup(
