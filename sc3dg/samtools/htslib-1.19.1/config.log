@@ -891,7 +891,7 @@ configure:5513: $? = 0
 configure:5513: result: yes
 configure:5519: checking for srand48_deterministic
 configure:5519: gcc -std=gnu11 -o conftest -g -O2 -fvisibility=hidden -I/cluster/home/Kangwen/opt/bzip2/include -L/cluster/home/Kangwen/opt/bzip2/lib -Wl,-R/cluster/home/Kangwen/opt/bzip2/lib -fvisibility=hidden conftest.c  >&5
-/tmp/ccfYAXKx.o: In function `main':
+/tmp/ccxPzBAD.o: In function `main':
 /cluster/home/Kangwen/Hic/AAA_tutorial/sc3dg/sc3dg/samtools/htslib-1.19.1/conftest.c:59: undefined reference to `srand48_deterministic'
 collect2: error: ld returned 1 exit status
 configure:5519: $? = 1
@@ -972,7 +972,7 @@ configure:5716: gcc -std=gnu11 -o conftest -g -O2 -fvisibility=hidden -I/cluster
 conftest.c:43:6: warning: conflicting types for built-in function 'log' [enabled by default]
  char log (void);
       ^
-/tmp/ccpIzzMO.o: In function `main':
+/tmp/ccU0iAhI.o: In function `main':
 /cluster/home/Kangwen/Hic/AAA_tutorial/sc3dg/sc3dg/samtools/htslib-1.19.1/conftest.c:47: undefined reference to `log'
 collect2: error: ld returned 1 exit status
 configure:5716: $? = 1

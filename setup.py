@@ -37,6 +37,7 @@ class fastp_cmd(install):
         self.copy_file(fastp_source, fastp_dest)
         # 确保 fastp 是可执行的
         os.chmod(fastp_dest, os.stat(fastp_dest).st_mode | stat.S_IEXEC)
+ 
 
 
 
@@ -182,6 +183,7 @@ setup(
     author="starker", 
     author_email="caikangwen@126.com", 
     cmdclass={
+         'fastp': fastp_cmd,
         'build_ext': bedtools_CustomBuild,
         'build_nanoplexer': NanoplexerCustomBuild,
         'build_bwa': bwa_CustomBuild,
@@ -190,7 +192,7 @@ setup(
         'install': CustomInstallCommand,
         'develop': CustomDevelopCommand,
         'egg_info': CustomEggInfoCommand,
-        'fastp': fastp_cmd,
+       
         'build_minimap2': minimap2_CustomBuild,
         
         
@@ -275,7 +277,8 @@ setup(
         'sc3dg.nanoplexer': ['*'],
        'sc3dg.cutadapt': ['*'],
         'sc3dg': [
-            'bedtool/bin/*'
+            'bedtool/bin/*',
+            'utils/*',
             'utils/fastp',
             'utils/BarcodeIdentification_v1.2.0.jar',
             'model/*.pyx', 'pairtools/lib/*.pyx',
