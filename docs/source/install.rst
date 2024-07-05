@@ -17,7 +17,7 @@ create a new environment
 
     conda create -n sc3dg python=3.9
     conda activate sc3dg
-    get clone https://github.com/CCCKW/stark.git
+    git clone https://github.com/CCCKW/stark.git
     cd stark-main
     pip install -r requirements.txt
     python setup.py install
