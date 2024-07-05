@@ -289,6 +289,7 @@ def get_ext_modules():
                 include_dirs=pysam.get_include() + [numpy_includes],
                 define_macros=pysam.get_defines() + [('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
                 language="c",
+                 extra_compile_args=['-std=c99'],
             )
         )
     
@@ -302,6 +303,7 @@ def get_ext_modules():
         if "pysam" not in name and "regions" not in name and name != "sc3dg.pairtools.lib.parse_pysam":
             extensions.append(Extension(name, [src_file], 
                                         include_dirs=[numpy_includes],
+                                         extra_compile_args=['-std=c99'],
                                         define_macros=[('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')]))
         elif "regions" in name:
             extensions.append(
