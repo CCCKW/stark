@@ -40,16 +40,6 @@ class fastp_cmd(install):
  
 
 
-
-
-
-
-
-
-
-
-
-
 def install_samtools():
     samtools_dir = os.path.join(os.path.dirname(__file__), 'sc3dg', 'samtools')
     print(f"Samtools directory: {samtools_dir}")
@@ -88,18 +78,18 @@ def install_samtools():
 
 class CustomInstallCommand(install):
     def run(self):
+
+        self.run_command('build_ext')
+        self.run_command('build_nanoplexer')
+        self.run_command('build_bwa')
+        self.run_command('build_bowite2')
+        self.run_command('build_minimap2')
+        self.run_command('fastp')
+
         install_samtools()
         install.run(self)
 
-class CustomDevelopCommand(develop):
-    def run(self):
-        install_samtools()
-        develop.run(self)
 
-class CustomEggInfoCommand(egg_info):
-    def run(self):
-        install_samtools()
-        egg_info.run(self)
 
 
 
@@ -165,7 +155,7 @@ def get_ext_modules():
 
 
 
-    
+
 
 
 setup(
@@ -175,16 +165,13 @@ setup(
     author="starker", 
     author_email="caikangwen@126.com", 
     cmdclass={
-
+        'install': CustomInstallCommand,
         'build_ext': bedtools_CustomBuild,
         'build_nanoplexer': NanoplexerCustomBuild,
         'build_bwa': bwa_CustomBuild,
         'build_bowite2': bowtie2_CustomBuild,
-      
-        'install': CustomInstallCommand,
-        'develop': CustomDevelopCommand,
-        'egg_info': CustomEggInfoCommand,
-                 'fastp': fastp_cmd,
+    
+        'fastp': fastp_cmd,
         'build_minimap2': minimap2_CustomBuild,
         
         

@@ -10,6 +10,7 @@ class CustomBuild(build_ext):
         # 假设 BWA 源代码就在当前目录下
         bedtools_dir = current_dir
         build_output_dir = bedtools_dir + '/bin'
+        os.makedirs(build_output_dir, exist_ok=True)
 
         # 编译 BWA
         print(f"Compiling bedtools in {bedtools_dir}")
