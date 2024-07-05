@@ -17,7 +17,7 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
         return MagicMock()
 
-MOCK_MODULES = ['numpy', 'cython', 'pysam', 'setuptools', 'sc3dg.bwa', 'sc3dg.bowtie2', 'sc3dg.minimap2', 'sc3dg.nanoplexer', 'sc3dg.bedtools']
+MOCK_MODULES = ['numpy', 'cython', 'pysam','shutil','stat', 'setuptools', 'sc3dg.bwa', 'sc3dg.bowtie2', 'sc3dg.minimap2', 'sc3dg.nanoplexer', 'sc3dg.bedtools']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 project = 'STARK'
