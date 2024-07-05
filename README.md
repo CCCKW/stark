@@ -39,6 +39,14 @@ We suggest creating a new python environment to install STARK before installatio
 
 ```
 
+Attention: if you have any problem with installation of pysam, try to install the pysam as the follow command before run the 'pip install -r requirements.txt':
+
+```shell
+
+    conda install -c bioconda pysam
+
+```
+
 For usage and more detailed information of stark , you can visit the [tutorial](https://sc3dg.readthedocs.io/en/latest/overview.html)
 
 
