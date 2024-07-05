@@ -340,6 +340,8 @@ setup(
             sources=['sc3dg/cutadapt/qualtrim.pyx'],
             include_dirs=[np.get_include()],
             define_macros=[('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
+            extra_compile_args=['-std=c99'],
+
         ),
 
         Extension(
@@ -347,30 +349,40 @@ setup(
             sources=['sc3dg/cutadapt/info.pyx'],
             include_dirs=[np.get_include()],
             define_macros=[('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
+            extra_compile_args=['-std=c99'],
+
         ),
         Extension(
             'sc3dg.cutadapt._align',
             sources=['sc3dg/cutadapt/_align.pyx'],
             include_dirs=[np.get_include()],
             define_macros=[('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
+            extra_compile_args=['-std=c99'],
+
         ),
         Extension(
             'sc3dg.cutadapt._kmer_finder',
             sources=['sc3dg/cutadapt/_kmer_finder.pyx'],
             include_dirs=[np.get_include()],
             define_macros=[('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
+            extra_compile_args=['-std=c99'],
+
         ),
         Extension(
             'sc3dg.model.dyn_util',
             sources=['sc3dg/model/dyn_util.pyx'],
             include_dirs=[np.get_include()],
             define_macros=[('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
+            extra_compile_args=['-std=c99'],
+
         ),
          Extension(
                 'sc3dg.pairtools.lib.dedup_cython',
                 sources=['sc3dg/pairtools/lib/dedup_cython.pyx'],
                 include_dirs=[np.get_include()],
                 define_macros=[('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
+                extra_compile_args=['-std=c99'],
+
             ),
              Extension(
                 'sc3dg.pairtools.lib.regions',
@@ -385,6 +397,8 @@ setup(
         ["sc3dg/cooltools/cooltools/lib/_numutils.pyx"],
         include_dirs=[np.get_include()],
         define_macros=[('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
+        extra_compile_args=['-std=c99'],
+
     ),
     ] + get_ext_modules()) ,
     packages=find_packages(exclude=['sc3dg.samtools.htslib-1.19.1']) +
