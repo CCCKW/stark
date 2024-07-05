@@ -18,17 +18,14 @@ create a new environment
     conda create -n sc3dg python=3.9
     conda activate sc3dg
     git clone https://github.com/CCCKW/stark.git
-    cd stark-main
+    cd stark
     pip install -r requirements.txt
     python setup.py install
 
+It 's recommended to install the requirements.txt first, then install the STARK package.
 
 Attention: it take a little time to install the requirements and the STARK package. We encapsulate most of the packages with complex dependencies. 
-
-It 's recommended to install the requirements first, then install the STARK package.
-
-Alse, you can use the nohup command to install the package in the background.
-
+Also, you can use the nohup command to install the package in the background.
 Besides, if you have any problems with the installation, especially "pip install -r requirements.txt", the installation of pysam may fail. 
 You can try to install it with the following command:
 

@@ -108,15 +108,15 @@ There are two ways to install stark:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sc3dg<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9
 conda<span class="w"> </span>activate<span class="w"> </span>sc3dg
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/CCCKW/stark.git
-<span class="nb">cd</span><span class="w"> </span>stark-main
+<span class="nb">cd</span><span class="w"> </span>stark
 pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 python<span class="w"> </span>setup.py<span class="w"> </span>install
 </pre></div>
 </div>
-<p>Attention: it take a little time to install the requirements and the STARK package. We encapsulate most of the packages with complex dependencies.</p>
-<p>It ‘s recommended to install the requirements first, then install the STARK package.</p>
-<p>Alse, you can use the nohup command to install the package in the background.</p>
-<p>Besides, if you have any problems with the installation, especially “pip install -r requirements.txt”, the installation of pysam may fail.
+<p>It ‘s recommended to install the requirements.txt first, then install the STARK package.</p>
+<p>Attention: it take a little time to install the requirements and the STARK package. We encapsulate most of the packages with complex dependencies.
+Also, you can use the nohup command to install the package in the background.
+Besides, if you have any problems with the installation, especially “pip install -r requirements.txt”, the installation of pysam may fail.
 You can try to install it with the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>pysam
 </pre></div>
