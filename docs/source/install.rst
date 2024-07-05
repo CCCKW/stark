@@ -15,7 +15,7 @@ create a new environment
 
 .. code-block:: bash
 
-    conda create -n sc3dg python>=3.9
+    conda create -n sc3dg python=3.9
     conda activate sc3dg
     get clone https://github.com/CCCKW/stark.git
     cd stark-main

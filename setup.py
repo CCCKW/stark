@@ -119,6 +119,7 @@ class CustomInstallCommand(install):
             print(f"Set execute permissions for {bedtools_dest}")
         else:
             raise FileNotFoundError(f"Compiled bedtools executable not found at {bedtools_executable}")
+            
     def build_and_install_bwa(self):
         # BWA 编译和安装的代码（与之前相同）
         current_dir = os.path.dirname(os.path.abspath(__file__))

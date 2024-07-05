@@ -30,7 +30,7 @@ We suggest creating a new python environment to install STARK before installatio
 
 ```shell
 
-    conda create -n sc3dg python>=3.9
+    conda create -n sc3dg python=3.9
     conda activate sc3dg
     git clone https://github.com/CCCKW/stark.git
     cd stark-main
