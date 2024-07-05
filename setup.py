@@ -183,7 +183,7 @@ setup(
     author="starker", 
     author_email="caikangwen@126.com", 
     cmdclass={
-         'fastp': fastp_cmd,
+
         'build_ext': bedtools_CustomBuild,
         'build_nanoplexer': NanoplexerCustomBuild,
         'build_bwa': bwa_CustomBuild,
@@ -192,7 +192,7 @@ setup(
         'install': CustomInstallCommand,
         'develop': CustomDevelopCommand,
         'egg_info': CustomEggInfoCommand,
-       
+                 'fastp': fastp_cmd,
         'build_minimap2': minimap2_CustomBuild,
         
         
