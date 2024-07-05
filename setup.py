@@ -1,6 +1,8 @@
 import os
 import glob
 import sys
+import stat
+import shutil
 import numpy as np
 import subprocess
 from setuptools import setup, find_packages, Extension
@@ -25,19 +27,6 @@ os.makedirs('sc3dg/bedtools/bin', exist_ok=True)
 
 
 
-
-class fastp_cmd(install):
-    def run(self):
-        install.run(self)
-        self.copy_fastp()
-
-    def copy_fastp(self):
-        fastp_source = os.path.join(os.path.dirname(__file__), 'sc3dg', 'utils', 'fastp')
-        fastp_dest = os.path.join(self.install_lib, 'sc3dg', 'utils', 'fastp')
-        self.copy_file(fastp_source, fastp_dest)
-        # 确保 fastp 是可执行的
-        os.chmod(fastp_dest, os.stat(fastp_dest).st_mode | stat.S_IEXEC)
- 
 
 
 def install_samtools():
@@ -78,16 +67,189 @@ def install_samtools():
 
 class CustomInstallCommand(install):
     def run(self):
-
-        self.run_command('build_ext')
-        self.run_command('build_nanoplexer')
-        self.run_command('build_bwa')
-        self.run_command('build_bowite2')
-        self.run_command('build_minimap2')
-        self.run_command('fastp')
-
+        # 编译并安装 BWA
+        self.build_and_install_bwa()
+        
+   
+        
+        # 编译并安装 minimap2
+        self.build_and_install_minimap2()
+        
+        # 编译并安装 Nanoplexer
+        self.build_and_install_nanoplexer()
+        self.build_and_install_bedtools()
+        
+        # 安装 samtools
         install_samtools()
+        
+        # 运行原始的安装命令
         install.run(self)
+        
+        # 复制 fastp
+        self.copy_fastp()
+
+    def build_and_install_bedtools(self):
+        print("Starting bedtools build process")
+        bedtools_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sc3dg', 'bedtools')
+        build_output_dir = os.path.join(bedtools_dir, 'bin')
+        os.makedirs(build_output_dir, exist_ok=True)
+
+        print(f"Compiling bedtools in {bedtools_dir}")
+        make_command = [
+            'make', 
+            '-C', bedtools_dir, 
+            f'prefix={build_output_dir}'
+        ]
+        try:
+            subprocess.check_call(make_command)
+            print("bedtools compilation successful")
+        except subprocess.CalledProcessError as e:
+            print(f"Error compiling bedtools: {e}")
+            raise
+
+        bedtools_executable = os.path.join(build_output_dir, 'bedtools')
+        if os.path.exists(bedtools_executable):
+            bedtools_dest = os.path.join(self.install_lib, 'sc3dg', 'bedtools', 'bedtools')
+            os.makedirs(os.path.dirname(bedtools_dest), exist_ok=True)
+            shutil.copy2(bedtools_executable, bedtools_dest)
+            print(f"Copied bedtools from {bedtools_executable} to {bedtools_dest}")
+            
+            current_mode = os.stat(bedtools_dest).st_mode
+            os.chmod(bedtools_dest, current_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+            print(f"Set execute permissions for {bedtools_dest}")
+        else:
+            raise FileNotFoundError(f"Compiled bedtools executable not found at {bedtools_executable}")
+    def build_and_install_bwa(self):
+        # BWA 编译和安装的代码（与之前相同）
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        bwa_dir = os.path.join(current_dir, 'sc3dg', 'bwa')
+        
+        print(f"Compiling BWA in {bwa_dir}")
+        subprocess.check_call(['make', '-C', bwa_dir])
+        
+        bwa_executable = os.path.join(bwa_dir, 'bwa')
+        if os.path.exists(bwa_executable):
+            bwa_dest = os.path.join(self.install_lib, 'sc3dg', 'bwa', 'bwa')
+            os.makedirs(os.path.dirname(bwa_dest), exist_ok=True)
+            shutil.copy2(bwa_executable, bwa_dest)
+            print(f"Copied BWA from {bwa_executable} to {bwa_dest}")
+            
+            current_mode = os.stat(bwa_dest).st_mode
+            os.chmod(bwa_dest, current_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+            print(f"Set execute permissions for {bwa_dest}")
+        else:
+            raise FileNotFoundError(f"Compiled BWA executable not found at {bwa_executable}")
+
+
+    def build_and_install_bowtie2(self):
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        bowtie2_dir = os.path.join(current_dir, 'sc3dg', 'bowtie2')
+        
+        print(f"Compiling Bowtie2 in {bowtie2_dir}")
+        subprocess.check_call(['make', '-C', bowtie2_dir])
+        
+        bowtie2_executables = ['bowtie2', 'bowtie2-build', 'bowtie2-inspect']
+        for executable in bowtie2_executables:
+            source = os.path.join(bowtie2_dir, executable)
+            if os.path.exists(source):
+                dest = os.path.join(self.install_lib, 'sc3dg', 'bowtie2', executable)
+                os.makedirs(os.path.dirname(dest), exist_ok=True)
+                shutil.copy2(source, dest)
+                print(f"Copied Bowtie2 executable from {source} to {dest}")
+                
+                current_mode = os.stat(dest).st_mode
+                os.chmod(dest, current_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+                print(f"Set execute permissions for {dest}")
+            else:
+                raise FileNotFoundError(f"Compiled Bowtie2 executable not found at {source}")
+
+
+    def build_and_install_minimap2(self):
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        minimap2_dir = os.path.join(current_dir, 'sc3dg', 'minimap2')
+        
+        print(f"Compiling minimap2 in {minimap2_dir}")
+        subprocess.check_call(['make', '-C', minimap2_dir])
+        
+        minimap2_executable = os.path.join(minimap2_dir, 'minimap2')
+        if os.path.exists(minimap2_executable):
+            minimap2_dest = os.path.join(self.install_lib, 'sc3dg', 'minimap2', 'minimap2')
+            os.makedirs(os.path.dirname(minimap2_dest), exist_ok=True)
+            shutil.copy2(minimap2_executable, minimap2_dest)
+            print(f"Copied minimap2 from {minimap2_executable} to {minimap2_dest}")
+            
+            current_mode = os.stat(minimap2_dest).st_mode
+            os.chmod(minimap2_dest, current_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+            print(f"Set execute permissions for {minimap2_dest}")
+        else:
+            raise FileNotFoundError(f"Compiled minimap2 executable not found at {minimap2_executable}")
+
+
+    def build_and_install_nanoplexer(self):
+        print("Starting Nanoplexer build process")
+        nanoplexer_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sc3dg', 'nanoplexer')
+        print(f"Nanoplexer directory: {nanoplexer_dir}")
+        
+        if not os.path.exists(nanoplexer_dir):
+            raise FileNotFoundError(f"Nanoplexer directory not found: {nanoplexer_dir}")
+
+        print("Attempting to compile Nanoplexer")
+        try:
+            subprocess.check_call(['make'], cwd=nanoplexer_dir)
+            print("Nanoplexer compilation successful")
+        except subprocess.CalledProcessError as e:
+            print(f"Error compiling Nanoplexer: {e}")
+            raise
+
+        nanoplexer_bin = os.path.join(nanoplexer_dir, 'nanoplexer')
+        if os.path.exists(nanoplexer_bin):
+            nanoplexer_dest = os.path.join(self.install_lib, 'sc3dg', 'nanoplexer', 'nanoplexer')
+            os.makedirs(os.path.dirname(nanoplexer_dest), exist_ok=True)
+            shutil.copy2(nanoplexer_bin, nanoplexer_dest)
+            print(f"Copied Nanoplexer from {nanoplexer_bin} to {nanoplexer_dest}")
+            
+            current_mode = os.stat(nanoplexer_dest).st_mode
+            os.chmod(nanoplexer_dest, current_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+            print(f"Set execute permissions for {nanoplexer_dest}")
+        else:
+            raise FileNotFoundError(f"Compiled Nanoplexer executable not found at {nanoplexer_bin}")
+
+    def copy_fastp(self):
+        # fastp 复制的代码（与之前相同）
+        fastp_source = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sc3dg', 'utils', 'fastp')
+        
+        if self.root:
+            fastp_dest = os.path.join(self.root, self.install_lib[1:], 'sc3dg', 'utils', 'fastp')
+        else:
+            fastp_dest = os.path.join(self.install_lib, 'sc3dg', 'utils', 'fastp')
+        
+        os.makedirs(os.path.dirname(fastp_dest), exist_ok=True)
+        
+        try:
+            shutil.copy2(fastp_source, fastp_dest)
+            print(f"Copied fastp from {fastp_source} to {fastp_dest}")
+            
+            current_mode = os.stat(fastp_dest).st_mode
+            os.chmod(fastp_dest, current_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+            print(f"Set execute permissions for {fastp_dest}")
+        except IOError as e:
+            print(f"Error copying fastp: {e}")
+            raise
+        except OSError as e:
+            print(f"Error setting permissions for fastp: {e}")
+            raise
+
+    def get_outputs(self):
+        outputs = super().get_outputs()
+        # 添加 BWA, Bowtie2, minimap2 和 fastp 到输出列表
+        bwa_dest = os.path.join(self.install_lib, 'sc3dg', 'bwa', 'bwa')
+        bowtie2_dest = os.path.join(self.install_lib, 'sc3dg', 'bowtie2', 'bowtie2')
+        minimap2_dest = os.path.join(self.install_lib, 'sc3dg', 'minimap2', 'minimap2')
+        fastp_dest = os.path.join(self.install_lib, 'sc3dg', 'utils', 'fastp')
+        for dest in [bwa_dest, bowtie2_dest, minimap2_dest, fastp_dest]:
+            if os.path.exists(dest):
+                outputs.append(dest)
+        return outputs
 
 
 
@@ -166,13 +328,7 @@ setup(
     author_email="caikangwen@126.com", 
     cmdclass={
         'install': CustomInstallCommand,
-        'build_ext': bedtools_CustomBuild,
-        'build_nanoplexer': NanoplexerCustomBuild,
-        'build_bwa': bwa_CustomBuild,
-        'build_bowite2': bowtie2_CustomBuild,
-    
-        'fastp': fastp_cmd,
-        'build_minimap2': minimap2_CustomBuild,
+      
         
         
 
