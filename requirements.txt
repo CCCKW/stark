@@ -1,12 +1,11 @@
 numpy==1.24.1
+pandas
 readthedocs-sphinx-ext
 click
 dnaio
 scikit-image
-pandas>=1.5.1
 cython
 cmake
-pysam
 biopython>=1.81
 sphinx
 recommonmark
@@ -32,8 +31,6 @@ numba>=0.57.1
 scipy>=1.7.0
 pandas>=1.3.4
 pyyaml
-pysam>=0.15.0
-cython
 pyBigWig>=0.3.22
 PyYAML>=6.0.1
 scikit-learn>=1.1.2
@@ -45,3 +42,4 @@ umap-learn>=0.5.3
 hicmatrix>=17
 unidecode>=1.3.6
 scanpy>=1.9.4
+pysam

@@ -29,6 +29,17 @@ It 's recommended to install the requirements first, then install the STARK pack
 
 Alse, you can use the nohup command to install the package in the background.
 
+Besides, if you have any problems with the installation, especially "pip install -r requirements.txt", the installation of pysam may fail. 
+You can try to install it with the following command:
+
+.. code-block:: bash
+
+    conda install -c bioconda pysam
+
+After the installation of pysam, you can continue to install the requirements.
+
+
+
 step2.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
