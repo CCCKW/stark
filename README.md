@@ -47,7 +47,7 @@ Attention: if you have any problem with installation of pysam, try to install th
 
 ```
 
-For usage and more detailed information of stark , you can visit the [tutorial](https://sc3dg.readthedocs.io/en/latest/overview.html)
+For usage and more detailed information of stark , you can visit the [tutorial](https://sc3dg.readthedocs.io/)
 
 
 Also, you can visit the [scNucleome](https://www.baidu.com) for more detailed information.
