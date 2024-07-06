@@ -26,7 +26,9 @@ To get started：
 # Installation
 
 
-We suggest creating a new python environment to install STARK before installation and STARK is based on python≥3.9
+We suggest creating a new python environment to install STARK before installation and STARK is based on python≥3.9.
+
+stark can only be installed on the linux.
 
 ```shell
 
