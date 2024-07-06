@@ -325,7 +325,7 @@ def get_ext_modules():
 
 setup(
     name="sc3dg",
-    version="0.0.66",
+    version="1.0.0",
     description="A toolkit for processing single cell Hi-C data",
     author="starker", 
     author_email="caikangwen@126.com", 

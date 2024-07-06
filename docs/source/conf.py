@@ -23,7 +23,7 @@ sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 project = 'STARK'
 copyright = '2024, Wulab'
 author = 'Wulab'
-release = '0.0.18'
+release = '1.0.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
