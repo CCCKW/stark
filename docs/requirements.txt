@@ -1,0 +1,13 @@
+bioframe
+click>=7.0
+ipython
+nbsphinx
+multiprocess
+readthedocs-sphinx-ext
+numpy
+pygments<3,>=2.4.1
+recommonmark
+Sphinx
+sphinx-rtd-theme
+sphinx-click
+docutils<=0.16
