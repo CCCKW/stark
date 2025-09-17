@@ -308,13 +308,29 @@ Parameter Description:
 
 Test data: /tutorial/Droplet/data
 
+Please make sure you have installed bowtie before running
+
+
+.. code-block:: bash
+
+    conda install bioconda::bowtie
+
+after that, you need to build the bowtie index for the 10x barcode reference.
+
+.. code-block:: bash
+
+    bowtie-build /path/to/10x/barcode/reference/ref.fa /path/to/10x/bowtie/index
+
+Then you can run the following command to process the droplet data.
+
+
+
 .. code-block:: bash
 
     stark count -t droplet \
         --ref-10x /path/to/10x/bowtie/index \
         -f /path/to/fastq/dir \
         -i /path/to/bwa/index \
-        -e MboI \
         -o /output/path \
         --exist-barcode \
         --thread 32
@@ -324,10 +340,8 @@ Parameter Description:
 - **-o**: Location to save the result, note that **all paths must be absolute paths.**
 - **-f**: Directory where the sequencing data is located.
 - **-t**: Type of single-cell Hi-C.
-- **-e**: Type of restriction enzyme used, must be consistent with the experiment.
-- **-r**: Resolution used to convert pairs files into cool files.
-- **-i**: Directory of the genome file used for alignment, the final hg38.fa is the type of genome, not part of the directory, consistent with the -g parameter of STARK index.
-- **-a**: The software used for assembly, optional bwa, bowtie2, bismark, minimap2. Here it should be consistent with the index produced by STARK index.
+- **--ref-10x**: Directory of the bowtie index for 10x barcode reference.
+- **-i**: bwa index of the genome file used for alignment
 
 
 .. _Paired:
@@ -335,15 +349,31 @@ Parameter Description:
 15. Paired
 ~~~~~~~~~
 
-Test data: /tutorial/Droplet/data
+Test data: /tutorial/Paired/data
+
+Please make sure you have installed bowtie before running
+
 
 .. code-block:: bash
 
-    stark count -t droplet \
+    conda install bioconda::bowtie
+
+after that, you need to build the bowtie index for the 10x barcode reference.
+
+.. code-block:: bash
+
+    bowtie-build /path/to/10x/barcode/reference/ref.fa /path/to/10x/bowtie/index
+
+Then you can run the following command to process the droplet data.
+
+
+
+.. code-block:: bash
+
+    stark count -t Paired \
         --ref-10x /path/to/10x/bowtie/index \
         -f /path/to/fastq/dir \
         -i /path/to/bwa/index \
-        -e MboI \
         -o /output/path \
         --exist-barcode \
         --thread 32
@@ -353,13 +383,8 @@ Parameter Description:
 - **-o**: Location to save the result, note that **all paths must be absolute paths.**
 - **-f**: Directory where the sequencing data is located.
 - **-t**: Type of single-cell Hi-C.
-- **-e**: Type of restriction enzyme used, must be consistent with the experiment.
-- **-r**: Resolution used to convert pairs files into cool files.
-- **-i**: Directory of the genome file used for alignment, the final hg38.fa is the type of genome, not part of the directory, consistent with the -g parameter of STARK index.
-- **-a**: The software used for assembly, optional bwa, bowtie2, bismark, minimap2. Here it should be consistent with the index produced by STARK index.
-
-
-
+- **--ref-10x**: Directory of the bowtie index for 10x barcode reference.
+- **-i**: bwa index of the genome file used for alignment
 
 
 

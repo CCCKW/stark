@@ -470,7 +470,8 @@ setup(
                              'sc3dg.cooltools.cooltools.sandbox',
                              'sc3dg.samtools',
                              'sc3dg.bedtools',
-                             'sc3dg.bedtools.bin'
+                             'sc3dg.bedtools.bin',
+                              'sc3dg.hictools'  # 添加这一行
                         
         
                              ],
@@ -519,6 +520,7 @@ setup(
             'fastp = sc3dg.utils.fastp_wrapper:main',
             'cutadapt = sc3dg.cutadapt.cli:main_cli',
             'bedtools = sc3dg.bedtools.bedtools_wrapper:main',
+            'hictools = sc3dg.hictools.hictools_wrapper:main',
 
         ]
     },
