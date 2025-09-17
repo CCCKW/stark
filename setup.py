@@ -85,6 +85,7 @@ class CustomInstallCommand(install):
         # 安装 samtools
         install_samtools()
         
+        
         # 运行原始的安装命令
         install.run(self)
         
