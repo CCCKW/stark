@@ -250,7 +250,7 @@ Test data: /tutorial/scNanoHi-C/data
 
 .. _LiMAC:
 
-11. LiMAC
+12. LiMAC
 ~~~~~~~~~
 
 Test data: /tutorial/LiMAC/data
@@ -274,9 +274,89 @@ Parameter Description:
 - **-i**: Directory of the genome file used for alignment, the final hg38.fa is the type of genome, not part of the directory, consistent with the -g parameter of STARK index.
 - **-a**: The software used for assembly, optional bwa, bowtie2, bismark, minimap2. Here it should be consistent with the index produced by STARK index.
 
+.. _GAGE-seq:
+
+13. GAGE-seq
+~~~~~~~~~~
+
+Test data: /tutorial/GAGE-seq/data
+
+.. code-block:: bash
+
+    stark count -o /absolute/path/to/result \
+     -f /absolute/path/to/data/GAGE-seq \
+     -t GAGE-seq \
+     -e  MboI \
+     -i /absolute/path/to/mm10/mm10.fa \
+     --thread 60 \
+     --exist-barcode
+
+Parameter Description:
+- **-o**: Location to save the result, note that **all paths must be absolute paths.**
+- **-f**: Directory where the sequencing data is located.
+- **-t**: Type of single-cell Hi-C.
+- **-e**: Type of restriction enzyme used, must be consistent with the experiment.
+- **-r**: Resolution used to convert pairs files into cool files.
+- **-i**: Directory of the genome file used for alignment, the final hg38.fa is the type of genome, not part of the directory, consistent with the -g parameter of STARK index.
+- **-a**: The software used for assembly, optional bwa, bowtie2, bismark, minimap2. Here it should be consistent with the index produced by STARK index.
 
 
+.. _Droplet:
 
+14. Droplet Hi-C
+~~~~~~~~~
+
+Test data: /tutorial/Droplet/data
+
+.. code-block:: bash
+
+    stark count -t droplet \
+        --ref-10x /path/to/10x/bowtie/index \
+        -f /path/to/fastq/dir \
+        -i /path/to/bwa/index \
+        -e MboI \
+        -o /output/path \
+        --exist-barcode \
+        --thread 32
+
+Parameter Description:
+
+- **-o**: Location to save the result, note that **all paths must be absolute paths.**
+- **-f**: Directory where the sequencing data is located.
+- **-t**: Type of single-cell Hi-C.
+- **-e**: Type of restriction enzyme used, must be consistent with the experiment.
+- **-r**: Resolution used to convert pairs files into cool files.
+- **-i**: Directory of the genome file used for alignment, the final hg38.fa is the type of genome, not part of the directory, consistent with the -g parameter of STARK index.
+- **-a**: The software used for assembly, optional bwa, bowtie2, bismark, minimap2. Here it should be consistent with the index produced by STARK index.
+
+
+.. _Paired:
+
+15. Paired
+~~~~~~~~~
+
+Test data: /tutorial/Droplet/data
+
+.. code-block:: bash
+
+    stark count -t droplet \
+        --ref-10x /path/to/10x/bowtie/index \
+        -f /path/to/fastq/dir \
+        -i /path/to/bwa/index \
+        -e MboI \
+        -o /output/path \
+        --exist-barcode \
+        --thread 32
+
+Parameter Description:
+
+- **-o**: Location to save the result, note that **all paths must be absolute paths.**
+- **-f**: Directory where the sequencing data is located.
+- **-t**: Type of single-cell Hi-C.
+- **-e**: Type of restriction enzyme used, must be consistent with the experiment.
+- **-r**: Resolution used to convert pairs files into cool files.
+- **-i**: Directory of the genome file used for alignment, the final hg38.fa is the type of genome, not part of the directory, consistent with the -g parameter of STARK index.
+- **-a**: The software used for assembly, optional bwa, bowtie2, bismark, minimap2. Here it should be consistent with the index produced by STARK index.
 
 
 
