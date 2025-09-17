@@ -1,0 +1,143 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get imputed contact map &mdash; STARK 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Calculate the normlized detection score" href="nDS.html" />
+    <link rel="prev" title="3D model the sc3DG" href="model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            STARK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">What’s the STARK?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CLI_TUTORIAL</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">install the STARK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="count.html">preprocess the sc3DG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">3D model the sc3DG</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Get imputed contact map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nDS.html">Calculate the normlized detection score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accum.html">Accumlated Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="merge.html">Merge the topN/bottomN cell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssce.html">Spatial Structure Capture Efficiency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gini.html">calculate the GiniQC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emptycells.html">EmptyCells</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">STARK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Get imputed contact map</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/impute.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="get-imputed-contact-map">
+<h1>Get imputed contact map<a class="headerlink" href="#get-imputed-contact-map" title="Link to this heading"></a></h1>
+<p>The RWR algorithm is a variant of the traditional random walk technique. It is designed to explore the graph by randomly walking through its nodes, with the added feature that at each step, there is a probability the walk will “restart” and return to a predefined starting node. We implement this algorithm, as referenced in previous research, for the interpolation of single-cell 3D genome data.</p>
+<p>First, we construct a probability transition matrix by normalizing the single-cell contact matrix (A) such that each row sums to 1. The walk restarts at the starting node with a probability <span class="math notranslate nohighlight">\(𝑟\)</span>, and with the probability <span class="math notranslate nohighlight">\(1−𝑟\)</span>, it proceeds to a neighboring node. The goal is to find the steady-state π which represents the matrix given the restart probability <span class="math notranslate nohighlight">\(𝑟\)</span>. The RWR is solved iteratively through the following steps:</p>
+<ol class="arabic simple">
+<li><p>Initialization: Start with an initial probability vector <span class="math notranslate nohighlight">\(𝜋0 = A\)</span>.</p></li>
+<li><p>Iteration: Update 𝜋 using the formula: <span class="math notranslate nohighlight">\(𝜋𝑡+1 = (1−𝑟)𝑃 𝜋𝑡 + 𝑟A\)</span>. <span class="math notranslate nohighlight">\(P\)</span> is XXX.</p></li>
+<li><p>Convergence: Repeat the iteration until π converges, when <span class="math notranslate nohighlight">\(|| 𝜋𝑡+1 - 𝜋𝑡 ||&lt; 10^{-6}\)</span>.</p></li>
+</ol>
+<p>Upon completion of the iterations, we obtain 𝜋𝑡+1 which serves as the imputated single-cell contact matrix.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>impute<span class="w"> </span>--mcool-path/absolute/path/to/data/gini/dipC_GSE117874_hum<span class="w"> </span><span class="se">\</span>
+--resolution<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>
+--output/absolute/path/to/result/impute<span class="w"> </span><span class="se">\</span>
+--nthread<span class="w"> </span><span class="m">2</span>
+</pre></div>
+</div>
+<p>The result like this:</p>
+<a class="reference internal image-reference" href="_images/impute.png"><img alt="_images/impute.png" class="align-center" src="_images/impute.png" style="width: 400px;" />
+</a>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="model.html" class="btn btn-neutral float-left" title="3D model the sc3DG" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nDS.html" class="btn btn-neutral float-right" title="Calculate the normlized detection score" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Wulab.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
