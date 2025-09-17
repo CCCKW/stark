@@ -17,11 +17,10 @@
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="EmptyCells" href="emptycells.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,7 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">What’s the STARK?</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">CLI_TUTORIAL</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">install the STARK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="count.html">preprocess the sc3DG</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">3D model the sc3DG</a></li>
@@ -60,6 +59,7 @@
 <li class="toctree-l1"><a class="reference internal" href="gini.html">calculate the GiniQC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emptycells.html">EmptyCells</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Clustering</a></li>
 </ul>
 
         </div>
@@ -88,17 +88,152 @@
              
   <section id="clustering">
 <h1>Clustering<a class="headerlink" href="#clustering" title="Link to this heading"></a></h1>
-<p>Spatial  Structure Capture Efficiency (SSCE) is introduced as a quantitative metric designed to evaluate the efficacy of single-cell sequencing in capturing the chromotin structural information. It is crucial to recognize that while the total number of sequenced contacts can vary significantly among cells, a lower count does not necessarily indicate inferior sequencing quality. Such a result may simply reflect the capture of a specific subset of the chromotin architecture, which can still have substantial biological implications. Conversely, a high number of detected contacts does not guarantee the biological relevance of these interactions or confirm an accurate representation of the cell’s chromotin spatial organization. With this in mind, we introduce a novel indicator, termed Spatial Structure Capture Efficiency (SSCE), which quantifies the proportion of intra-cellular contacts contributing to the formation of the cell’s chromotin architecture. This metric is essential for a more nuanced understanding of the structural fidelity of single-cell sequencing data.The SSCE are calculated as follows:
-<span class="math notranslate nohighlight">\(SSCE=\frac{T+A}{I+C}\)</span>,
-where  <span class="math notranslate nohighlight">\(T\)</span>, <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(I\)</span>, and <span class="math notranslate nohighlight">\(C\)</span> are derived from fitting the following regression:</p>
-<p><span class="math notranslate nohighlight">\(C_i～B+I*inter_i+T*tad_i+A*ab_i\)</span></p>
-<p>In this equation, <span class="math notranslate nohighlight">\(C_i\)</span> denotes the aggregate count of contacts associated with chromosome <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(inter_i\)</span> represents the number of interactions that chromosome <span class="math notranslate nohighlight">\(i\)</span> engages in with other chromosomes in the genome. <span class="math notranslate nohighlight">\(tad_i\)</span>  corresponds to the count of TAD boundaries identified on chromosome <span class="math notranslate nohighlight">\(i\)</span> at a resolution of 40 kilobases, which is pivotal for elucidating chromatin domain organization. <span class="math notranslate nohighlight">\(ab_i\)</span> signifies the count of A/B compartment switches for chromosome <span class="math notranslate nohighlight">\(i\)</span> determined at a resolution of 100 kilobases, providing insights into the chromatin’s compartmentalization. The constant <span class="math notranslate nohighlight">\(B\)</span> in the equation serves two critical roles. Firstly, it accounts for contacts that cannot be attributed to any specific chromosomal structure feature. Secondly, it includes contacts that may result from technical or systematic errors during the sequencing process. To ensure the accuracy of the model, any chromosomes where all variables are nullified are systematically excluded from the regression analysis.
-Considering the inherent collinearity between the counts of <span class="math notranslate nohighlight">\(ab_i\)</span> and <span class="math notranslate nohighlight">\(tad_i\)</span>, we employ Ridge regression as our fitting method. The coefficients derived from the Ridge regression model are then utilized to compute the SSCE. It is logical to infer that higher values of structural features <span class="math notranslate nohighlight">\(ab_i\)</span> and <span class="math notranslate nohighlight">\(tad_i\)</span>, along with lower values of non-structural features <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(I\)</span>, contribute to higher SSCE scores. An elevated SSCE score, therefore, implies a more thorough and precise depiction of the single-cell chomotin structure.</p>
+<p>STARK has built-in clustering algorithms such as Higashi, Fast-higashi, deepnanoHi-C, and schicluster. These algorithms are all based on clustering from pairs.gz files.</p>
 <p>To calculate the SSCE, you can use the following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>ssce<span class="w"> </span>--mcool<span class="w"> </span>/absolute/path/to/data/test_ssce<span class="w"> </span><span class="se">\</span>
---genome<span class="w"> </span>/absolute/path/to/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
---output<span class="w"> </span>/absolute/path/to/result/ssce<span class="w"> </span><span class="se">\</span>
---nproc<span class="w"> </span><span class="m">2</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>clustering<span class="w"> </span>--method<span class="w"> </span>&lt;method_name&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--config<span class="w"> </span>&lt;config_file&gt;<span class="w"> </span><span class="se">\</span>
+</pre></div>
+</div>
+<p>example:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>clustering<span class="w"> </span>--method<span class="w"> </span>higashi<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--config<span class="w"> </span>config.json
+</pre></div>
+</div>
+<p>The configuration file should be in JSON format and include the following fields:</p>
+<p>Higashi:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;data_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/final_dir&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;structured&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;input_format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;higashi_v2&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;header_included&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;temp_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/final_dir&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;genome_reference_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;g38.fa.chrom.sizes&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cytoband_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cytoBand_hg38.txt&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;chrom_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr5&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;chr6&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr7&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr8&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr9&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr10&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;chr11&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr12&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr14&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr15&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;chr16&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr17&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr18&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr19&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr20&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;chr21&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr22&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resolution_cell&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resolution_fh&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">50000</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;embedding_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;minimum_distance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;maximum_distance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;local_transfer_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;loss_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;zinb&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;dimensions&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">128</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;impute_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr5&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;chr6&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr7&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr8&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr9&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr10&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;chr11&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr12&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr14&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr15&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;chr16&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr17&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr18&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr19&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr20&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;chr21&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr22&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;neighbor_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cpu_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;gpu_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;embedding_epoch&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;correct_be_impute&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Fast-higashi:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="p">{</span>
+<span class="nt">&quot;data_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/final_dir&quot;</span><span class="p">,</span>
+<span class="nt">&quot;structured&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="nt">&quot;input_format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;higashi_v2&quot;</span><span class="p">,</span>
+<span class="nt">&quot;header_included&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="nt">&quot;temp_dir&quot;</span><span class="p">:</span><span class="w">  </span><span class="s2">&quot;/path/to/final_dir&quot;</span><span class="p">,</span>
+<span class="nt">&quot;genome_reference_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hg38.fa.chrom.sizes&quot;</span><span class="p">,</span>
+<span class="nt">&quot;cytoband_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cytoBand_hg38.txt&quot;</span><span class="p">,</span>
+<span class="nt">&quot;chrom_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr5&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="s2">&quot;chr6&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr7&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr8&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr9&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr10&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="s2">&quot;chr11&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr12&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr14&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr15&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="s2">&quot;chr16&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr17&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr18&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr19&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr20&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="s2">&quot;chr21&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr22&quot;</span><span class="p">],</span>
+<span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span>
+<span class="nt">&quot;resolution_cell&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span>
+<span class="nt">&quot;resolution_fh&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">50000</span><span class="p">],</span>
+<span class="nt">&quot;embedding_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+<span class="nt">&quot;minimum_distance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span>
+<span class="nt">&quot;maximum_distance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<span class="nt">&quot;local_transfer_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="nt">&quot;loss_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;zinb&quot;</span><span class="p">,</span>
+<span class="nt">&quot;dimensions&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">128</span><span class="p">,</span>
+<span class="nt">&quot;impute_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr5&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;chr6&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr7&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr8&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr9&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr10&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;chr11&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr12&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr14&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr15&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;chr16&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr17&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr18&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr19&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr20&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;chr21&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr22&quot;</span><span class="p">],</span>
+<span class="nt">&quot;neighbor_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="nt">&quot;cpu_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="nt">&quot;gpu_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="nt">&quot;embedding_epoch&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="nt">&quot;correct_be_impute&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+</pre></div>
+</div>
+<p>}</p>
+<p>DeepnanoHi-C:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;data_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/final_dir&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;temp_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="err">/pa</span><span class="kc">t</span><span class="err">h/</span><span class="kc">t</span><span class="err">o/</span><span class="kc">f</span><span class="err">i</span><span class="kc">nal</span><span class="err">_dir</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;structured&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;input_format&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;higashi_v2&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;header_included&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;genome_reference_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hg38.fa.chrom.sizes&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cytoband_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cytoBand_hg38.txt&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;chrom_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr5&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;chr6&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr7&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr8&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr9&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr10&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;chr11&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr12&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr14&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr15&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;chr16&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr17&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr18&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr19&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr20&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;chr21&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr22&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500000</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resolution_cell&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">500000</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resolution_fh&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">500000</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;embedding_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;minimum_distance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;maximum_distance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;local_transfer_range&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;loss_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;zinb&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;dimensions&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">128</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;impute_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr5&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s2">&quot;chr6&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr7&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr8&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr9&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr10&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s2">&quot;chr11&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr12&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr14&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr15&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s2">&quot;chr16&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr17&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr18&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr19&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr20&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s2">&quot;chr21&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr22&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;neighbor_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cpu_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;gpu_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;embedding_epoch&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;correct_be_impute&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Schicluster:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;data_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/final_dir&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;temp_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/final_dir&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;filelist&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/final_dir/filelist.txt&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;genome_reference_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hg38.fa.chrom.sizes&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;chrom_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr5&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;chr6&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr7&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr8&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr9&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr10&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;chr11&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr12&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr14&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr15&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;chr16&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr17&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr18&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr19&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr20&quot;</span><span class="p">,</span>
+<span class="w">                 </span><span class="s2">&quot;chr21&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr22&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;impute_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;chr1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr5&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s2">&quot;chr6&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr7&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr8&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr9&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr10&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s2">&quot;chr11&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr12&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr13&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr14&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr15&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s2">&quot;chr16&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr17&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr18&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr19&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr20&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="s2">&quot;chr21&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;chr22&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;dist&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2500</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;res&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50000</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;n_jobs&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You need to give the filelist.txt file in the target data_dir directory, which contains the pairs.gz files of all the cells you need to cluster, like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/path/to/final_dir/[Even2Bo10][Odd2Bo69][DPM6bot1].pairs.gz
+/path/to/final_dir/[Even2Bo11][Odd2Bo19][DPM6bot31].pairs.gz
+/path/to/final_dir/[Even2Bo11][Odd2Bo1][DPM6bot75].pairs.gz
 </pre></div>
 </div>
 </section>
@@ -106,7 +241,9 @@ Considering the inherent collinearity between the counts of <span class="math no
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="emptycells.html" class="btn btn-neutral float-left" title="EmptyCells" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
