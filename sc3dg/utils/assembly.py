@@ -80,10 +80,34 @@ def assembly(type_,opt, fastq,log_out):
         opt['inner-barcode'] = os.path.dirname(opt['fastq_dir'][opt['fastq_log'].index(fastq)]) + '/' + fastq + '_inner_barcodes.txt'
         opt['outer-barcode'] = os.path.dirname(opt['fastq_dir'][opt['fastq_log'].index(fastq)]) + '/' + fastq + '_outer_barcodes.txt'
 
-
+   
 
     # fastp,获得trimmed-pair1/2.fastq.gz,传入后续比对
     if opt['exist_barcode']:
+        if type_ == 'GAGE-seq':
+            from sc3dg.utils.muti_demultiplex import main as muti_demultiplex
+            adaptor_file_bc2 = opt['adaptor-file-bc2']
+            adaptor_file_l2 = opt['adaptor-file-l2']
+            adaptor_file_bc1 = opt['adaptor-file-bc1']
+            outfile1 = 'demulti_R1.fastq.gz'
+            outfile2 = 'demulti_R2.fastq.gz'
+            barcode = [adaptor_file_bc2, adaptor_file_l2, adaptor_file_bc1]
+            pos1 = [[], [], []]  # 对应 "[]" 参数
+            pos2 = [slice(0, 8), slice(8, 23), slice(23, 31)]
+            mode = [1, 5, 1]
+            unknown1 = None
+            unknown2 = None
+            barcode2keep = None  # 对应 --barcode2keep=""
+            chunk_size = 100000
+            nproc = threads
+            
+            muti_demultiplex(fq_r1, fq_r2, outfile1, outfile2, barcode, pos1, pos2, mode, 
+         unknown1, unknown2, barcode2keep, chunk_size, nproc)
+            
+            t = fastp('demulti_R1.fastq.gz', 'demulti_R2.fastq.gz',
+                      'trimmed-pair1.fastq.gz', 'trimmed-pair2.fastq.gz',
+                      threads, max=False)
+             
         if type_ == 'snHic':
             t = fastp(fq_r1, fq_r2, 
                       'trimmed-pair1.fastq.gz', 'trimmed-pair2.fastq.gz',
@@ -190,7 +214,6 @@ def assembly(type_,opt, fastq,log_out):
                             )
     logging.info('cooler_cload_pairs::: %s '%t)
 
-    # t = KR_correctMatrix(fastq,str(opt['resolution']) )
     # logging.info('KR_correctMatrix::: %s '%t)
     if isinstance(opt['zoomify_res'], list):
         opt['zoomify_res'] = ','.join(opt['zoomify_res'])
@@ -200,7 +223,11 @@ def assembly(type_,opt, fastq,log_out):
 
     # print(34534534534)
     if opt['exist_barcode']:
-        split_cells(fastq)
+        if type_ == 'GAGE-seq':
+            from sc3dg.utils.parseSCpairs import main as split_cells
+            split_cells(fastq, './Result/SCpair')
+        else:
+            split_cells(fastq)
         t = time.time()
         pair_list = []
         for p in os.listdir('./Result/SCpair'):
