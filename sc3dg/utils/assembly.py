@@ -1,3 +1,15 @@
+import argparse
+import re
+import numpy as np
+import subprocess
+import time
+import os
+import logging
+from .scaffold import *
+import pandas as pd
+from joblib import Parallel, delayed
+
+
 def assembly(type_,opt, fastq,log_out):
 
     print('********run %s || %s*********' % (type_, fastq))
