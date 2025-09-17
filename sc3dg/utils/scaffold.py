@@ -637,3 +637,175 @@ def snHic_barcode(file1_path, file2_path):
                     DirtyFile.write("Reads1\t" + line1[0:-1] + "\tReads2\t" + line2)
     fp.close()
     DirtyFile.close()
+    
+    
+    
+# droplet
+
+
+
+
+
+def hictools_combine(fastq_dir, filename, combine_type='atac'):
+    """使用hictools合并Hi-C数据"""
+    cmd = f'hictools combine_hic {combine_type} {fastq_dir}/{filename}'
+    return run_cmd_return_time(cmd)
+
+def bowtie_align_barcode(fastq_dir, filename, ref_10x, read_type='R1'):
+    """使用Bowtie比对barcode"""
+    input_file = f'{fastq_dir}/{filename}_{read_type}_combined.fq.gz'
+    output_file = f'{fastq_dir}/{filename}_{read_type}_BC.sam'
+    cmd = f'zcat {input_file} | bowtie -p 10 -x {ref_10x} - --nofw -m 1 -v 1 -S {output_file}'
+    return run_cmd_return_time(cmd)
+
+def modify_sam_format(code_dir, fastq_dir, filename, read_type='R1'):
+    """修改SAM文件格式"""
+    input_sam = f'{fastq_dir}/{filename}_{read_type}_BC.sam'
+    output_sam = f'{fastq_dir}/{filename}_{read_type}_BC_modified.sam'
+    cmd = f'python {code_dir}/modify_sam.py {input_sam} {output_sam}'
+    return run_cmd_return_time(cmd)
+
+def merge_and_filter_reads(fastq_dir, filename):
+    """合并、排序、筛选有效配对reads"""
+    # 合并
+    cmd1 = f'samtools merge -@ 20 {fastq_dir}/{filename}_merged.bam {fastq_dir}/{filename}_R1_BC_modified.sam {fastq_dir}/{filename}_R3_BC_modified.sam'
+    time1 = run_cmd_return_time(cmd1)
+    
+    # 排序
+    cmd2 = f'samtools sort -@ 32 -n {fastq_dir}/{filename}_merged.bam -o {fastq_dir}/{filename}_sorted_merged_name.bam'
+    time2 = run_cmd_return_time(cmd2)
+    
+    # 筛选配对reads
+    cmd3 = f'samtools view -@ 32 -b -F 8 {fastq_dir}/{filename}_sorted_merged_name.bam > {fastq_dir}/{filename}_paired_only.bam'
+    time3 = run_cmd_return_time(cmd3)
+    
+    # 转换为SAM
+    cmd4 = f'samtools view -@ 32 -h {fastq_dir}/{filename}_paired_only.bam > {fastq_dir}/{filename}_paired_only.sam'
+    time4 = run_cmd_return_time(cmd4)
+    
+    return time1 + time2 + time3 + time4
+
+def reconstruct_fastq_with_barcode(code_dir, fastq_dir, filename):
+    """重建包含barcode信息的FASTQ文件"""
+    input_sam = f'{fastq_dir}/{filename}_paired_only.sam'
+    output_r1 = f'{fastq_dir}/{filename}_R1_BC_cov.fq'
+    output_r3 = f'{fastq_dir}/{filename}_R3_BC_cov.fq'
+    cmd = f'python {code_dir}/recon_fq.py {input_sam} {output_r1} {output_r3}'
+    return run_cmd_return_time(cmd)
+
+def cleanup_intermediate_files(fastq_dir, filename):
+    """清理中间文件"""
+    files_to_remove = [
+        f'{fastq_dir}/{filename}_R1_BC.sam',
+        f'{fastq_dir}/{filename}_R3_BC.sam', 
+        f'{fastq_dir}/{filename}_R1_BC_modified.sam',
+        f'{fastq_dir}/{filename}_R3_BC_modified.sam',
+        f'{fastq_dir}/{filename}_sorted_merged_name.bam',
+        f'{fastq_dir}/{filename}_paired_only.bam',
+        f'{fastq_dir}/{filename}_paired_only.sam',
+        f'{fastq_dir}/{filename}_R1_BC_cov.fq',
+        f'{fastq_dir}/{filename}_R3_BC_cov.fq'
+    ]
+    
+    for file_path in files_to_remove:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+def process_droplet_hic(opt, fastq, log_out):
+    """处理droplet Hi-C数据的主函数"""
+    
+    # 设置路径和参数
+    fastq_dir = opt['fastq_dir'][opt['fastq_log'].index(fastq)]
+    fastq_dir = os.path.dirname(fastq_dir)
+    code_dir = opt.get('code_dir', '/path/to/code')  # 需要在配置中设置
+    ref_10x = opt.get('ref_10x', '/path/to/ref')    # 需要在配置中设置
+    
+    filename = fastq
+    threads = opt['thread']
+    
+    log_out.info(f'开始处理droplet Hi-C数据: {filename}')
+    
+    try:
+        # 1. 使用hictools合并数据
+        t = hictools_combine(fastq_dir, filename, 'atac')
+        log_out.info(f'hictools_combine: {t}')
+        
+        # 2. 使用Bowtie比对barcode (并行处理R1和R3)
+        import threading
+        
+        def align_r1():
+            return bowtie_align_barcode(fastq_dir, filename, ref_10x, 'R1')
+        
+        def align_r3():
+            return bowtie_align_barcode(fastq_dir, filename, ref_10x, 'R3')
+        
+        thread1 = threading.Thread(target=align_r1)
+        thread2 = threading.Thread(target=align_r3)
+        
+        thread1.start()
+        thread2.start()
+        thread1.join()
+        thread2.join()
+        
+        log_out.info('bowtie比对完成')
+        
+        # 3. 修改SAM文件格式 (并行处理)
+        def modify_r1():
+            return modify_sam_format(code_dir, fastq_dir, filename, 'R1')
+        
+        def modify_r3():
+            return modify_sam_format(code_dir, fastq_dir, filename, 'R3')
+        
+        thread1 = threading.Thread(target=modify_r1)
+        thread2 = threading.Thread(target=modify_r3)
+        
+        thread1.start()
+        thread2.start()
+        thread1.join()
+        thread2.join()
+        
+        log_out.info('SAM格式修改完成')
+        
+        # 4. 合并、排序、筛选reads
+        t = merge_and_filter_reads(fastq_dir, filename)
+        log_out.info(f'merge_and_filter_reads: {t}')
+        
+        # 5. 重建FASTQ文件
+        t = reconstruct_fastq_with_barcode(code_dir, fastq_dir, filename)
+        log_out.info(f'reconstruct_fastq_with_barcode: {t}')
+        
+        # 6. 创建临时目录
+        trim_dir = f'{fastq_dir}/tmp'
+        if not os.path.exists(trim_dir):
+            os.makedirs(trim_dir)
+        
+        # 7. 使用fastp进行质控 (修改输入文件路径)
+        input_r1 = f'{fastq_dir}/{filename}_R1_BC_cov.fq'
+        input_r3 = f'{fastq_dir}/{filename}_R3_BC_cov.fq'
+        output_r1 = f'{trim_dir}/{filename}_R1_BC_cov_val_1.fq.gz'
+        output_r3 = f'{trim_dir}/{filename}_R3_BC_cov_val_2.fq.gz'
+        
+        t = fastp(input_r1, input_r3, output_r1, output_r3, threads, max=False)
+        log_out.info(f'fastp: {t}')
+        
+        # 8. 使用BWA比对到参考基因组
+        t = bwa_mem_specific(opt['index'], threads, filename, trim_dir, output_r1, output_r3)
+        log_out.info(f'bwa_mem: {t}')
+        
+        # 后续步骤与原流程相同，从pairtools开始...
+        # 这里可以复用原有的处理逻辑
+        
+        # 9. 清理中间文件
+        cleanup_intermediate_files(fastq_dir, filename)
+        
+        log_out.info(f'droplet Hi-C处理完成: {filename}')
+        
+    except Exception as e:
+        log_out.error(f'处理droplet Hi-C数据时出错: {str(e)}')
+        raise
+
+def bwa_mem_specific(bwaindex, threads, filename, trim_dir, input_r1, input_r3):
+    """BWA mem比对的特定实现"""
+    output_bam = f'{trim_dir}/{filename}.bam'
+    cmd = f'bwa mem -SP5M {bwaindex} -t {threads} {input_r1} {input_r3} | samtools view -bhS -@ 5 - > {output_bam}'
+    return run_cmd_return_time(cmd)
