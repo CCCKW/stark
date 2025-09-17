@@ -78,7 +78,10 @@ class CustomInstallCommand(install):
         # 编译并安装 Nanoplexer
         self.build_and_install_nanoplexer()
         self.build_and_install_bedtools()
-        
+
+
+        # 编译并安装 hictools
+        self.build_and_install_hictools()
         # 安装 samtools
         install_samtools()
         
@@ -88,6 +91,54 @@ class CustomInstallCommand(install):
         # 复制 fastp
         self.copy_fastp()
 
+
+    def build_and_install_hictools(self):
+        """编译和安装 hictools"""
+        print("Starting hictools build process")
+        hictools_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sc3dg', 'hictools')
+        
+        if not os.path.exists(hictools_dir):
+            raise FileNotFoundError(f"hictools directory not found: {hictools_dir}")
+        
+        # 检查源文件是否存在
+        hictools_cpp = os.path.join(hictools_dir, 'hictools.cpp')
+        if not os.path.exists(hictools_cpp):
+            raise FileNotFoundError(f"hictools.cpp not found in {hictools_dir}")
+        
+        print(f"Compiling hictools in {hictools_dir}")
+        try:
+            # 编译 hictools
+            compile_command = ['g++', '-g', 'hictools.cpp', '-o', 'hictools']
+            subprocess.check_call(compile_command, cwd=hictools_dir)
+            print("hictools compilation successful")
+        except subprocess.CalledProcessError as e:
+            print(f"Error compiling hictools: {e}")
+            raise
+        
+        # 复制编译好的可执行文件
+        hictools_executable = os.path.join(hictools_dir, 'hictools')
+        if os.path.exists(hictools_executable):
+            hictools_dest = os.path.join(self.install_lib, 'sc3dg', 'hictools', 'hictools')
+            os.makedirs(os.path.dirname(hictools_dest), exist_ok=True)
+            shutil.copy2(hictools_executable, hictools_dest)
+            print(f"Copied hictools from {hictools_executable} to {hictools_dest}")
+            
+            # 设置执行权限
+            current_mode = os.stat(hictools_dest).st_mode
+            os.chmod(hictools_dest, current_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+            print(f"Set execute permissions for {hictools_dest}")
+        else:
+            raise FileNotFoundError(f"Compiled hictools executable not found at {hictools_executable}")
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
     def build_and_install_bedtools(self):
         print("Starting bedtools build process")
         bedtools_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sc3dg', 'bedtools')
