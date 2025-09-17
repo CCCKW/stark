@@ -64,7 +64,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#id9">9. snHi-C+</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#scnanohi-c">10. scNanoHi-C</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#scmethyl">11. scMethyl</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#limac">11. LiMAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#limac">12. LiMAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gage-seq">13. GAGE-seq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#droplet-hi-c">14. Droplet Hi-C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#paired">15. Paired</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#the-illumination-of-the-result">The illumination of the Result</a></li>
@@ -122,10 +125,10 @@
 <li><p><a class="reference internal" href="#snhi-c"><span class="std std-ref">8. snHi-C</span></a></p></li>
 <li><p><a class="reference internal" href="#scnanohi-c"><span class="std std-ref">10. scNanoHi-C</span></a></p></li>
 <li><p><a class="reference internal" href="#scmethyl"><span class="std std-ref">11. scMethyl</span></a></p></li>
-<li><p><a class="reference internal" href="#limac"><span class="std std-ref">11. LiMAC</span></a></p></li>
-<li><p><span class="xref std std-ref">GAGE-seq</span></p></li>
-<li><p><span class="xref std std-ref">Droplet</span></p></li>
-<li><p><span class="xref std std-ref">Paired</span></p></li>
+<li><p><a class="reference internal" href="#limac"><span class="std std-ref">12. LiMAC</span></a></p></li>
+<li><p><a class="reference internal" href="#gage-seq"><span class="std std-ref">13. GAGE-seq</span></a></p></li>
+<li><p><a class="reference internal" href="#droplet"><span class="std std-ref">14. Droplet Hi-C</span></a></p></li>
+<li><p><a class="reference internal" href="#paired"><span class="std std-ref">15. Paired</span></a></p></li>
 </ul>
 </section>
 <section id="typical-workflow">
@@ -299,7 +302,7 @@
 </div>
 </section>
 <section id="limac">
-<span id="id12"></span><h3>11. LiMAC<a class="headerlink" href="#limac" title="Link to this heading"></a></h3>
+<span id="id12"></span><h3>12. LiMAC<a class="headerlink" href="#limac" title="Link to this heading"></a></h3>
 <p>Test data: /tutorial/LiMAC/data</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>-f<span class="w"> </span>/absolute/path/to/data/LiMAC<span class="w"> </span><span class="se">\</span>
@@ -307,6 +310,75 @@
 <span class="w"> </span>-e<span class="w">  </span>MboI<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>-i<span class="w"> </span>/absolute/path/to/hg38/hg38.fa<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>--thread<span class="w"> </span><span class="m">60</span>
+</pre></div>
+</div>
+<p>Parameter Description:</p>
+<ul class="simple">
+<li><p><strong>-o</strong>: Location to save the result, note that <strong>all paths must be absolute paths.</strong></p></li>
+<li><p><strong>-f</strong>: Directory where the sequencing data is located.</p></li>
+<li><p><strong>-t</strong>: Type of single-cell Hi-C.</p></li>
+<li><p><strong>-e</strong>: Type of restriction enzyme used, must be consistent with the experiment.</p></li>
+<li><p><strong>-r</strong>: Resolution used to convert pairs files into cool files.</p></li>
+<li><p><strong>-i</strong>: Directory of the genome file used for alignment, the final hg38.fa is the type of genome, not part of the directory, consistent with the -g parameter of STARK index.</p></li>
+<li><p><strong>-a</strong>: The software used for assembly, optional bwa, bowtie2, bismark, minimap2. Here it should be consistent with the index produced by STARK index.</p></li>
+</ul>
+</section>
+<section id="gage-seq">
+<span id="id13"></span><h3>13. GAGE-seq<a class="headerlink" href="#gage-seq" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/GAGE-seq/data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-f<span class="w"> </span>/absolute/path/to/data/GAGE-seq<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-t<span class="w"> </span>GAGE-seq<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-e<span class="w">  </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-i<span class="w"> </span>/absolute/path/to/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--thread<span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--exist-barcode
+</pre></div>
+</div>
+<p>Parameter Description:
+- <strong>-o</strong>: Location to save the result, note that <strong>all paths must be absolute paths.</strong>
+- <strong>-f</strong>: Directory where the sequencing data is located.
+- <strong>-t</strong>: Type of single-cell Hi-C.
+- <strong>-e</strong>: Type of restriction enzyme used, must be consistent with the experiment.
+- <strong>-r</strong>: Resolution used to convert pairs files into cool files.
+- <strong>-i</strong>: Directory of the genome file used for alignment, the final hg38.fa is the type of genome, not part of the directory, consistent with the -g parameter of STARK index.
+- <strong>-a</strong>: The software used for assembly, optional bwa, bowtie2, bismark, minimap2. Here it should be consistent with the index produced by STARK index.</p>
+</section>
+<section id="droplet-hi-c">
+<span id="droplet"></span><h3>14. Droplet Hi-C<a class="headerlink" href="#droplet-hi-c" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/Droplet/data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-t<span class="w"> </span>droplet<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--ref-10x<span class="w"> </span>/path/to/10x/bowtie/index<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-f<span class="w"> </span>/path/to/fastq/dir<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-i<span class="w"> </span>/path/to/bwa/index<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-e<span class="w"> </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>/output/path<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--exist-barcode<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--thread<span class="w"> </span><span class="m">32</span>
+</pre></div>
+</div>
+<p>Parameter Description:</p>
+<ul class="simple">
+<li><p><strong>-o</strong>: Location to save the result, note that <strong>all paths must be absolute paths.</strong></p></li>
+<li><p><strong>-f</strong>: Directory where the sequencing data is located.</p></li>
+<li><p><strong>-t</strong>: Type of single-cell Hi-C.</p></li>
+<li><p><strong>-e</strong>: Type of restriction enzyme used, must be consistent with the experiment.</p></li>
+<li><p><strong>-r</strong>: Resolution used to convert pairs files into cool files.</p></li>
+<li><p><strong>-i</strong>: Directory of the genome file used for alignment, the final hg38.fa is the type of genome, not part of the directory, consistent with the -g parameter of STARK index.</p></li>
+<li><p><strong>-a</strong>: The software used for assembly, optional bwa, bowtie2, bismark, minimap2. Here it should be consistent with the index produced by STARK index.</p></li>
+</ul>
+</section>
+<section id="paired">
+<span id="id14"></span><h3>15. Paired<a class="headerlink" href="#paired" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/Droplet/data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-t<span class="w"> </span>droplet<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--ref-10x<span class="w"> </span>/path/to/10x/bowtie/index<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-f<span class="w"> </span>/path/to/fastq/dir<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-i<span class="w"> </span>/path/to/bwa/index<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-e<span class="w"> </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span>/output/path<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--exist-barcode<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--thread<span class="w"> </span><span class="m">32</span>
 </pre></div>
 </div>
 <p>Parameter Description:</p>
@@ -349,7 +421,7 @@
 <p><strong>scSPRITE_test_tmp</strong> is the root directory of the output, where ‘test’ is the name of the sample.</p>
 <p><strong>Result</strong> is directory the main result saved in it.</p>
 <p><strong>cool_folder</strong> is the directory stores all cells’ cool files before and after <strong>KR</strong> correction.</p>
-<p><strong>mcool _folder</strong> is the <a href="#id13"><span class="problematic" id="id14">**</span></a><a href="#id15"><span class="problematic" id="id16">**</span></a>directory stores all cells’ mcool files.</p>
+<p><strong>mcool _folder</strong> is the <a href="#id15"><span class="problematic" id="id16">**</span></a><a href="#id17"><span class="problematic" id="id18">**</span></a>directory stores all cells’ mcool files.</p>
 <p><strong>SCpair</strong> is the directory stores all cells’ pair files.</p>
 <p><strong>test.bam</strong> is the bam file of the sequencing data.</p>
 <p><strong>test_logging.log</strong> records all the parameters of processing the data by STARK, as well as the time spent on each step.</p>
