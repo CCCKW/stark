@@ -35,7 +35,7 @@ def run_exec(type_, opt, fq, log_out):
 @click.option('-o', '--output', help='Save path', required=True)
 @click.option('-f', '--fastq', required=True, help='Fastq directory, run all if -s is not specified')
 @click.option('--logging', help='Logging file path', default='./log.log')
-@click.option('-t', '--type', required=True, type=click.Choice(['scHic', 'snHic', 'sciHic', 'scSPRITE', 'dipC', 'sn_m3c', 'HIRES', 'scNano', 'scMethyl', 'LiMAC', 'scCARE']), help='Type of Hi-C')
+@click.option('-t', '--type', required=True, type=click.Choice(['scHic', 'snHic', 'sciHic', 'scSPRITE', 'dipC', 'sn_m3c', 'HIRES', 'scNano', 'scMethyl', 'LiMAC', 'paired','droplet','GAGE-seq']), help='Type of Hi-C')
 @click.option('-e', '--enzyme', help='Enzyme, e.g., mboi', required=True, type=str)
 @click.option('-r', '--resolution', help='Resolution', default=10000, type=int)
 @click.option('-i', '--index', help='BWA fa file/Bowtie fa file', required=True)
@@ -44,6 +44,9 @@ def run_exec(type_, opt, fq, log_out):
 @click.option('--qc', type=int, default=0, help='Samtools view to QC')
 @click.option('--add-columns', default='mapq', help=help.help['add_columns'])
 @click.option('--thread', help='Thread count', type=int, default=20)
+@click.option('--adaptor-file-bc2', help='Adpator file for barcode 2, default is None', default=None)
+@click.option('--adaptor-file-l2', help='Adpator file for barcode 2, default is None', default=None)
+@click.option('--adaptor-file-bc1', help='Adpator file for barcode 2, default is None', default=None)
 @click.option('--worker', help='Simultaneously run the worker of the pipeline', type=int, default=2)
 @click.option('--select', help=help.help['select'], default="mapq1>=30 and mapq2>=30")
 @click.option('--max-mismatch', help=help.help['max_mismatch'], type=int, default=3)
@@ -52,13 +55,13 @@ def run_exec(type_, opt, fq, log_out):
 @click.option('--sprite-config', default=None ,help='scSPRITE config')
 @click.option('--scnano-barcode', help='scNano barcode for PCR and TN5, stored in a folder and named as TN5.txt and PCR index.txt respectively', default=None)
 @click.option('--zoomify-res', help='zoomify',type=str, default='10000,40000,100000,500000,1000000')
-def count(output, fastq, logging, type, enzyme, resolution, index, sample, exist_barcode, qc, add_columns, thread, worker, select, max_mismatch, aligner, repeat_masker,sprite_config, scnano_barcode, zoomify_res):
+def count(output, fastq, logging, type_, enzyme, resolution, index, sample, exist_barcode, qc, add_columns, thread, worker, select, max_mismatch, aligner, repeat_masker,sprite_config, scnano_barcode, zoomify_res):
     """Run the Hi-C pipeline with the specified options."""
     opt = {
         'output': output,
         'fastq': fastq,
         'logging': logging,
-        'type': type,
+        'type': type_,
         'enzyme': enzyme,
         'resolution': resolution,
         'index': index,
@@ -99,8 +102,9 @@ def count(output, fastq, logging, type, enzyme, resolution, index, sample, exist
     opt['species'] = tl.parse_species(opt)
     
     # print(opt)
-    
-    
+    if opt['type'] == 'droplet' or opt['type'] == 'GAGE-seq':
+        # 检查bowtie 这个命令
+        pass
     # gobal logging
     log_out = tl.log_(opt)
     os.chdir(opt['output'])

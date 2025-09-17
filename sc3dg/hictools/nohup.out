@@ -1,0 +1,16 @@
+
+gzip: /cluster/home/jwj/Project/scHIC_pipeline/3_Pipeline_summary/16_DroplitHiC/fastq_dir/SRR27586280_LC462_S1_L003_R3.fq.gz: invalid compressed data--crc error
+
+gzip: /cluster/home/jwj/Project/scHIC_pipeline/3_Pipeline_summary/16_DroplitHiC/fastq_dir/SRR27586280_LC462_S1_L003_R3.fq.gz: invalid compressed data--length error
+
+gzip: /cluster/home/jwj/Project/scHIC_pipeline/3_Pipeline_summary/16_DroplitHiC/fastq_dir/SRR27586280_LC462_S1_L003_R1.fq.gz: invalid compressed data--crc error
+
+gzip: /cluster/home/jwj/Project/scHIC_pipeline/3_Pipeline_summary/16_DroplitHiC/fastq_dir/SRR27586280_LC462_S1_L003_R1.fq.gz: invalid compressed data--length error
+==================================================
+(10X) Barcode Locator Report: /cluster/home/jwj/Project/scHIC_pipeline/3_Pipeline_summary/16_DroplitHiC/fastq_dir/SRR27586280_LC462_S1_L003
+barcodes modes:		atac
+# total raw reads:		896061400
+# of full barcoded reads:	896061400
+% of full length barcode reads:	0.01%
+==================================================
+
