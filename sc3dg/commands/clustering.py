@@ -3,7 +3,7 @@ import pandas as pd
 
 
 @click.command('clustering', short_help='clustering')
-@click.option('--method',  help='mcool path',required=True, default='higashi', type=click.Choice(['higashi', 'fasthigashi', 'deepNanoHiC'], case_sensitive=False))
+@click.option('--method',  help='mcool path',required=True, default='higashi', type=click.Choice(['higashi', 'fasthigashi', 'deepNanoHiC','schicluster'], case_sensitive=False))
 @click.option('--config',  help='config',required=True, default=None)
 
 
@@ -22,3 +22,6 @@ def clustering(method, config):
     elif method == 'deepNanoHiC':
         from sc3dg.clustering.deepNanoHiC.deepNanoHiC_pipe import deepNanoHiC_clustering
         deepNanoHiC_clustering(config, output)
+    elif method == 'schicluster':
+        from sc3dg.clustering.schiCluster.schiCluster_pipe import schiCluster_clustering
+        schiCluster_clustering(config, output)
