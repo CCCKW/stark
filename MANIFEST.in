@@ -1,0 +1,27 @@
+include requirements.txt
+include README.md
+
+include sc3dg/model/*.c
+include sc3dg/model/*.pyx
+include sc3dg/utils/*.jar
+include sc3dg/utils/fastp
+include sc3dg/pairtools/lib/*.pyx
+include sc3dg/pairtools/lib/*.cpp
+include sc3dg/pairtools/*.c
+include sc3dg/utils/*
+include sc3dg/samtools/**/*
+include sc3dg/samtools/*
+include sc3dg/utils/BarcodeIdentification_v1.2.0.jar
+include sc3dg/nanoplexer/*
+include sc3dg/nanoplexer/*.c
+include sc3dg/nanoplexer/*.h
+include sc3dg/bedtools/**/*
+include sc3dg/bedtools/*
+recursive-include sc3dg/bedtools *
+
+
+
+global-include *.pyx
+global-include *.pxd
+global-include *.c
+global-include *.cpp

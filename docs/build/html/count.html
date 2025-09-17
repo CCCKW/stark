@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>preprocess the sc3DG &mdash; STARK 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3D model the sc3DG" href="model.html" />
+    <link rel="prev" title="install the STARK" href="install.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            STARK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">What’s the STARK?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CLI_TUTORIAL</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">install the STARK</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">preprocess the sc3DG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#navigation">Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#typical-workflow">Typical Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#schi-c">1. scHi-C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">2. scHi-C+</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dip-c">3. Dip-C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hires">4. HiRES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sn-m3c">5. sn-m3C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scsprite">6. scSPRITE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scihi-c">7. sciHi-C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snhi-c">8. snHi-C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">9. snHi-C+</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scnanohi-c">10. scNanoHi-C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scmethyl">11. scMethyl</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-illumination-of-the-result">The illumination of the Result</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">3D model the sc3DG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impute.html">Get imputed contact map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nDS.html">Calculate the normlized detection score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accum.html">Accumlated Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="merge.html">Merge the topN/bottomN cell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssce.html">Spatial Structure Capture Efficiency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gini.html">calculate the GiniQC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emptycells.html">EmptyCells</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">STARK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">preprocess the sc3DG</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/count.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="preprocess-the-sc3dg">
+<h1>preprocess the sc3DG<a class="headerlink" href="#preprocess-the-sc3dg" title="Link to this heading"></a></h1>
+<section id="navigation">
+<h2>Navigation<a class="headerlink" href="#navigation" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>scHiC</p></li>
+<li><p>scHi-C+</p></li>
+<li><p>Dip-C</p></li>
+<li><p>HiRES</p></li>
+<li><p>sn-m3C</p></li>
+<li><p>scSPRITE</p></li>
+<li><p>sciHi-C</p></li>
+<li><p>snHi-C</p></li>
+<li><p>snHi-C</p></li>
+<li><p>scNanoHi-C</p></li>
+<li><p>scMethyl</p></li>
+<li><p>LiMAC</p></li>
+<li><p>GAGE-seq</p></li>
+<li><p>Droplet</p></li>
+<li><p>Paired</p></li>
+</ul>
+</section>
+<section id="typical-workflow">
+<h2>Typical Workflow<a class="headerlink" href="#typical-workflow" title="Link to this heading"></a></h2>
+<section id="schi-c">
+<h3>1. scHi-C<a class="headerlink" href="#schi-c" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/scHi-C/data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-f<span class="w"> </span>/absolute/path/to/data/scHic_no<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-t<span class="w"> </span>scHic<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-e<span class="w">  </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-i<span class="w"> </span>/absolute/path/to/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--thread<span class="w"> </span><span class="m">60</span>
+</pre></div>
+</div>
+<p>Parameter Description:</p>
+<ul class="simple">
+<li><p><strong>-o</strong>: Location to save the result, note that <strong>all paths must be absolute paths.</strong></p></li>
+<li><p><strong>-f</strong>: Directory where the sequencing data is located.</p></li>
+<li><p><strong>-t</strong>: Type of single-cell Hi-C.</p></li>
+<li><p><strong>-e</strong>: Type of restriction enzyme used, must be consistent with the experiment.</p></li>
+<li><p><strong>-r</strong>: Resolution used to convert pairs files into cool files.</p></li>
+<li><p><strong>-i</strong>: Directory of the genome file used for alignment, the final hg38.fa is the type of genome, not part of the directory, consistent with the -g parameter of STARK index.</p></li>
+<li><p><strong>-a</strong>: The software used for assembly, optional bwa, bowtie2, bismark, minimap2. Here it should be consistent with the index produced by STARK index.</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3>2. scHi-C+<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/scHic_index/data</p>
+<p>It should be noted that the number of fastq files generated by this technique should be 4, where _1 and _4 are reads, and _2 and _3 are the corresponding barcode files.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-f<span class="w"> </span>/absolute/path/to/data/scHic_index<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-t<span class="w"> </span>scHic<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-e<span class="w">  </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-i<span class="w"> </span>/absolute/path/to/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--thread<span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--exist-barcode
+</pre></div>
+</div>
+<p>Note that the only difference with scHi-C is that you need to specify that it has barcodes with the parameter –exist-barcode.</p>
+</section>
+<section id="dip-c">
+<h3>3. Dip-C<a class="headerlink" href="#dip-c" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/Dip-C/data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-f<span class="w"> </span>/absolute/path/to/data/dipC<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-t<span class="w"> </span>dipC<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-e<span class="w">  </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-i<span class="w"> </span>/absolute/path/to/hg38/hg38.fa<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--thread<span class="w"> </span><span class="m">60</span>
+</pre></div>
+</div>
+<p>Similar with scHi-C, STARK will automatically process the following steps according to the parameter -t.</p>
+</section>
+<section id="hires">
+<h3>4. HiRES<a class="headerlink" href="#hires" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/HRIES/data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-f<span class="w"> </span>/absolute/path/to/data/HIRES<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-t<span class="w"> </span>HIRES<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-e<span class="w">  </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-i<span class="w"> </span>/absolute/path/to/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--thread<span class="w"> </span><span class="m">60</span>
+</pre></div>
+</div>
+<p>Similar with scHi-C, STARK will automatically process the follow-up according to the parameter -t.</p>
+</section>
+<section id="sn-m3c">
+<h3>5. sn-m3C<a class="headerlink" href="#sn-m3c" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/sn-m3C/data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-f<span class="w"> </span>/absolute/path/to/data/sn_m3c<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-t<span class="w"> </span>sn_m3c<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-e<span class="w"> </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-r<span class="w"> </span><span class="m">10000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-i<span class="w"> </span>/absolute/path/to/bowtie2/hg38/hg38.fa<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--aligner<span class="w"> </span>bowtie2<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--thread<span class="w"> </span><span class="m">60</span>
+</pre></div>
+</div>
+<p>Since the sn-m3C sequencing simultaneously methylation and Hi-C, only bismark can be used for assembly. Correspondingly, there is no multiple choice for -i and -a. However, bismark is based on bowtie2, you can write the parameters as bowtie2.</p>
+</section>
+<section id="scsprite">
+<h3>6. scSPRITE<a class="headerlink" href="#scsprite" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/scSPRITE/data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-f<span class="w"> </span>/absolute/path/to/data/scSPRITE<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-t<span class="w"> </span>scSPRITE<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-e<span class="w"> </span>HpyCH4V<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>-i<span class="w"> </span>/absolute/path/to/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--thread<span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--repeat-masker<span class="w"> </span>/absolute/path/to/mm10_rmsk.bed<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--exist-barcode
+</pre></div>
+</div>
+<p>Parameter Description:</p>
+<ul class="simple">
+<li><p><strong>–sprite-config</strong>: A txt file for scSPRITE generating barcode.</p></li>
+<li><p><strong>–repeat-masker</strong>: A bed file for genome masking of repetitive regions.</p></li>
+</ul>
+</section>
+<section id="scihi-c">
+<h3>7. sciHi-C<a class="headerlink" href="#scihi-c" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/sciHi-C/data. It should be noted that not only two sequencing fastq files are needed in each sequencing file directory, but also txt files corresponding to inner_barcode.txt and outer_barcode.txt are needed. The format is as shown in the example.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-f<span class="w"> </span>/absolute/path/to/data/sciHic<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-t<span class="w"> </span>sciHic<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-e<span class="w">  </span>DpnII<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-i<span class="w"> </span>/absolute/path/to/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--thread<span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--exist-barcode
+</pre></div>
+</div>
+<p>Similar with scHic_index, STARK will automatically carry out subsequent processing according to the parameter -t.</p>
+</section>
+<section id="snhi-c">
+<h3>8. snHi-C<a class="headerlink" href="#snhi-c" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/snHi-C/data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-f<span class="w"> </span>/absolute/path/to/data/sciHic<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-t<span class="w"> </span>sciHic<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-e<span class="w">  </span>DpnII<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-i<span class="w"> </span>/absolute/path/to/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--thread<span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--exist-barcode
+</pre></div>
+</div>
+<p>Similar with scHi-C, STARK will automatically process the follow-up according to the parameter -t.</p>
+</section>
+<section id="id2">
+<h3>9. snHi-C+<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/snHi-C+/data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-f<span class="w"> </span>/absolute/path/to/data/snHic_index<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-t<span class="w"> </span>snHic<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-e<span class="w">  </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-i<span class="w"> </span>/absolute/path/to/hg38/hg38.fa<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--thread<span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--exist-barcode
+</pre></div>
+</div>
+<p>Similar with scHi-C, STARK will automatically process the following steps according to the parameter -t.</p>
+</section>
+<section id="scnanohi-c">
+<h3>10. scNanoHi-C<a class="headerlink" href="#scnanohi-c" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/scNanoHi-C/data</p>
+<p>It is worth noting that scNanoHi-C uses third-generation sequencing, and the sequencing data directory should contain the fastq file, TN5.txt, PCR.txt, and index.txt.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-f<span class="w"> </span>/absolute/path/to/data/scNano/data<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-t<span class="w"> </span>scNano<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-e<span class="w">  </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-i<span class="w"> </span>/absolute/path/to/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--thread<span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--exist-barcode
+</pre></div>
+</div>
+<p>scNanoHi-C uses third-generation sequencing technology and uses minimap2 by default. So the -a parameter will become ineffective.</p>
+</section>
+<section id="scmethyl">
+<h3>11. scMethyl<a class="headerlink" href="#scmethyl" title="Link to this heading"></a></h3>
+<p>Test data: /tutorial/scNanoHi-C/data</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-o<span class="w"> </span>/absolute/path/to/result<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-f<span class="w"> </span>/absolute/path/to/data/scMeth<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-t<span class="w"> </span>scMethyl<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-e<span class="w">  </span>DpnII<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-i<span class="w"> </span>//absolute/path/to/bowtie2/mm10/mm10<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--aligner<span class="w"> </span>bowtie2<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--thread<span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--exist-barcode
+</pre></div>
+</div>
+</section>
+</section>
+<section id="the-illumination-of-the-result">
+<h2>The illumination of the Result<a class="headerlink" href="#the-illumination-of-the-result" title="Link to this heading"></a></h2>
+<p>Here is the introduction to the results:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scSPRITE_test_tmp/
+<span class="w">    </span>├──<span class="w"> </span>Result
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>cool_folder
+<span class="w">    </span>│<span class="w">       </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo10<span class="o">][</span>Odd2Bo69<span class="o">][</span>DPM6bot1<span class="o">]</span>_10000.cool
+<span class="w">    </span>│<span class="w">       </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo10<span class="o">][</span>Odd2Bo69<span class="o">][</span>DPM6bot1<span class="o">]</span><span class="m">10000</span>.KR.cool
+<span class="w">    </span>│<span class="w">       </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo11<span class="o">][</span>Odd2Bo19<span class="o">][</span>DPM6bot31<span class="o">]</span>_10000.cool
+<span class="w">    </span>│<span class="w">       </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo11<span class="o">][</span>Odd2Bo19<span class="o">][</span>DPM6bot31<span class="o">]</span><span class="m">10000</span>.KR.cool
+<span class="w">    </span>│<span class="w">       </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo11<span class="o">][</span>Odd2Bo1<span class="o">][</span>DPM6bot75<span class="o">]</span>_10000.cool
+<span class="w">    </span>│<span class="w">       </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo11<span class="o">][</span>Odd2Bo1<span class="o">][</span>DPM6bot75<span class="o">]</span><span class="m">10000</span>.KR.cool
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>mcool_folder
+<span class="w">    </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo10<span class="o">][</span>Odd2Bo69<span class="o">][</span>DPM6bot1<span class="o">]</span>.mcool
+<span class="w">    </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo11<span class="o">][</span>Odd2Bo19<span class="o">][</span>DPM6bot31<span class="o">]</span>.mcool
+<span class="w">    </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo11<span class="o">][</span>Odd2Bo1<span class="o">][</span>DPM6bot75<span class="o">]</span>.mcool
+<span class="w">    </span>│<span class="w">   </span>└──<span class="w"> </span>SCpair
+<span class="w">    </span>│<span class="w">       </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo10<span class="o">][</span>Odd2Bo69<span class="o">][</span>DPM6bot1<span class="o">]</span>.pairs.gz
+<span class="w">    </span>│<span class="w">       </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo11<span class="o">][</span>Odd2Bo19<span class="o">][</span>DPM6bot31<span class="o">]</span>.pairs.gz
+<span class="w">    </span>│<span class="w">       </span>├──<span class="w"> </span><span class="o">[</span>Even2Bo11<span class="o">][</span>Odd2Bo1<span class="o">][</span>DPM6bot75<span class="o">]</span>.pairs.gz
+<span class="w">    </span>├──<span class="w"> </span>test.bam
+<span class="w">    </span>├──<span class="w"> </span>test_logging.log
+<span class="w">    </span>└──<span class="w"> </span>trimmed.fastp.json
+</pre></div>
+</div>
+<p><strong>scSPRITE_test_tmp</strong> is the root directory of the output, where ‘test’ is the name of the sample.</p>
+<p><strong>Result</strong> is directory the main result saved in it.</p>
+<p><strong>cool_folder</strong> is the directory stores all cells’ cool files before and after <strong>KR</strong> correction.</p>
+<p><strong>mcool _folder</strong> is the <a href="#id3"><span class="problematic" id="id4">**</span></a><a href="#id5"><span class="problematic" id="id6">**</span></a>directory stores all cells’ mcool files.</p>
+<p><strong>SCpair</strong> is the directory stores all cells’ pair files.</p>
+<p><strong>test.bam</strong> is the bam file of the sequencing data.</p>
+<p><strong>test_logging.log</strong> records all the parameters of processing the data by STARK, as well as the time spent on each step.</p>
+<p><strong>trimmed.fastp.json</strong> records the result of fastp processing the data.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="install.html" class="btn btn-neutral float-left" title="install the STARK" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="model.html" class="btn btn-neutral float-right" title="3D model the sc3DG" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Wulab.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

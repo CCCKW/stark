@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EmptyCells &mdash; STARK 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="detect the loop" href="loop.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            STARK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">What’s the STARK?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CLI_TUTORIAL</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">install the STARK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="count.html">preprocess the sc3DG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">3D model the sc3DG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impute.html">Get imputed contact map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nDS.html">Calculate the normlized detection score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accum.html">Accumlated Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="merge.html">Merge the topN/bottomN cell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssce.html">Spatial Structure Capture Efficiency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gini.html">calculate the GiniQC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">EmptyCells</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sc3dg-seq-technologies">sc3DG-seq technologies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#importance-of-quality-control">Importance of Quality Control</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#emptycells-method">EmptyCells Method</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hypothesis">Hypothesis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mathematical-representation">Mathematical Representation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-threshold-establishment">Step 1: Threshold Establishment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-low-quality-barcode-profile-construction">Step 2: Low-Quality Barcode Profile Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#barcode-quality-assessment">Barcode Quality Assessment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#p-value-calculation">P-value Calculation</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">STARK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">EmptyCells</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/emptycells.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="emptycells">
+<h1>EmptyCells<a class="headerlink" href="#emptycells" title="Link to this heading"></a></h1>
+<section id="sc3dg-seq-technologies">
+<h2>sc3DG-seq technologies<a class="headerlink" href="#sc3dg-seq-technologies" title="Link to this heading"></a></h2>
+<p>sc3DG-seq technologies are broadly categorized into two approaches:</p>
+<ol class="arabic simple">
+<li><p>Low-throughput non-barcoded methods</p></li>
+<li><p>High-throughput barcoded methods</p></li>
+</ol>
+<p>Non-barcoded methods:</p>
+<ul class="simple">
+<li><p>Involve the precise isolation of individual cells</p></li>
+<li><p>Subjected to library construction and sequencing</p></li>
+</ul>
+<p>Barcoded methods:</p>
+<ul class="simple">
+<li><p>Allow for the high-throughput sequencing of multiple cells simultaneously by incorporating cell barcodes</p></li>
+<li><p>Enable the sequencing of a larger number of cells per experiment</p></li>
+<li><p>Can result in a substantial variation in the number of contacts captured from each cell</p></li>
+</ul>
+<section id="importance-of-quality-control">
+<h3>Importance of Quality Control<a class="headerlink" href="#importance-of-quality-control" title="Link to this heading"></a></h3>
+<p>The effective filtering of low-quality cells is critical.</p>
+<p>Common quality control approaches:</p>
+<ul class="simple">
+<li><p>Rely on total contact number thresholds to filter cells/barcodes</p></li>
+<li><dl class="simple">
+<dt>Have limitations:</dt><dd><ul>
+<li><p>Library preparation efficiencies can vary among barcodes</p></li>
+<li><p>Stringent thresholds may inadvertently exclude cells with less compact chromatin structures</p></li>
+<li><p>Could be particularly problematic when analyzing cell-state transitions (Nagano et al., 2017)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</section>
+<section id="emptycells-method">
+<h2>EmptyCells Method<a class="headerlink" href="#emptycells-method" title="Link to this heading"></a></h2>
+<p>Inspired by EmptyDrops (Lun et al., 2019) and Cellranger (10 x Genomics, version 7.0.1), we propose a two-step method for filtering low-quality cells in sc3DG-seq data:</p>
+<ol class="arabic simple">
+<li><p>Preliminary filtering:
+- Setting a low threshold based on the total number of contacts
+- Remove low-quality cells with insufficient sequencing or capture efficiency</p></li>
+<li><p>Further refinement:
+- Modeling the profile of these low-quality cells
+- Enhance the filtering process</p></li>
+</ol>
+<section id="hypothesis">
+<h3>Hypothesis<a class="headerlink" href="#hypothesis" title="Link to this heading"></a></h3>
+<p>High-quality cells exhibit a diverse array of interaction types.</p>
+</section>
+<section id="mathematical-representation">
+<h3>Mathematical Representation<a class="headerlink" href="#mathematical-representation" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>All barcodes of a sample can be represented as <span class="math notranslate nohighlight">\(A= \{y_{bg}\in \mathbb{R}^{N\times\mathcal{g}}\}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(y_{bg}\)</span> denotes the number of contacts for interaction type g in barcode b</p></li>
+<li><p>N denotes the total number of barcodes</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathcal{g}\)</span> denotes the interaction type</p></li>
+</ul>
+<p>Note: We exclude interaction types that are not present in all barcodes from our analysis to maintain consistency and accuracy.</p>
+</section>
+</section>
+<section id="step-1-threshold-establishment">
+<h2>Step 1: Threshold Establishment<a class="headerlink" href="#step-1-threshold-establishment" title="Link to this heading"></a></h2>
+<p>We establish a threshold T based on the total number of contacts per barcode:</p>
+<div class="math notranslate nohighlight">
+\[T = \max(500, \alpha f(A_b))\]</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\alpha\)</span> is a hyperparameter, which we set to 0.01</p></li>
+<li><p><span class="math notranslate nohighlight">\(f(\cdot)\)</span> calculates the median value of the barcode contact vector <span class="math notranslate nohighlight">\(A_b\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(A_b = \sum_{g\in\mathcal{g}} y_{gb}\)</span></p></li>
+</ul>
+<p>Barcodes that fall below this threshold T are discarded, while the remaining barcodes proceed to the next step of the filtering process.</p>
+</section>
+<section id="step-2-low-quality-barcode-profile-construction">
+<h2>Step 2: Low-Quality Barcode Profile Construction<a class="headerlink" href="#step-2-low-quality-barcode-profile-construction" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Select a subset of barcodes characterized by a low number of contacts (bottom 5%) to form a set G</p></li>
+<li><p>Calculate A as the sum of contacts across all barcodes in G:</p>
+<div class="math notranslate nohighlight">
+\[A_g = \sum_{b\in G}{y_{gb},}\]</div>
+</li>
+<li><p>Yielding a contact vector <span class="math notranslate nohighlight">\(A=(A_1,\ldots,A_\mathcal{g})\)</span></p></li>
+<li><p>Apply the Simple Good-Turing algorithm to obtain the posterior expectation <span class="math notranslate nohighlight">\(\hat{p}_g\)</span></p></li>
+</ol>
+</section>
+<section id="barcode-quality-assessment">
+<h2>Barcode Quality Assessment<a class="headerlink" href="#barcode-quality-assessment" title="Link to this heading"></a></h2>
+<p>For a given barcode b:</p>
+<ul>
+<li><p>The total number of contacts is denoted as <span class="math notranslate nohighlight">\(t_b\)</span></p></li>
+<li><p>Modeled using a Dirichlet multinomial distribution</p></li>
+<li><p>The likelihood is defined as:</p>
+<div class="math notranslate nohighlight">
+\[L_b = \frac{t_b!\Gamma(\alpha)}{\Gamma(t_b+\alpha)}\prod_{g=1}^{N}\frac{\Gamma(y_{bg}+\alpha_g)}{y_{bg}!\Gamma(\alpha_g)}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha_g = \beta\hat{p}_g\)</span>, <span class="math notranslate nohighlight">\(\beta\)</span> is a scaling factor</p>
+</li>
+</ul>
+</section>
+<section id="p-value-calculation">
+<h2>P-value Calculation<a class="headerlink" href="#p-value-calculation" title="Link to this heading"></a></h2>
+<p>We employ the Monte Carlo simulation method to calculate the p-value for each barcode:</p>
+<ol class="arabic">
+<li><p>For each iteration i of a given barcode, a new contact number vector is randomly sampled</p></li>
+<li><p>The likelihood <span class="math notranslate nohighlight">\({L^\prime}_{bi}\)</span> is calculated based on <span class="math notranslate nohighlight">\(\hat{p}_g\)</span>, <span class="math notranslate nohighlight">\(t_b\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span></p></li>
+<li><p>The count <span class="math notranslate nohighlight">\(R_b\)</span> of likelihoods from the R round simulation that are less than <span class="math notranslate nohighlight">\(L_b\)</span> is utilized</p></li>
+<li><p>P-value calculation (Phipson and Smyth, 2010):</p>
+<div class="math notranslate nohighlight">
+\[P_b = \frac{R_b+1}{R+1}\]</div>
+</li>
+</ol>
+<p>This approach allows us to quantitatively assess the quality of each barcode and to filter out those that do not meet the predetermined quality thresholds, thereby enhancing the reliability of downstream analyses.</p>
+<p>To conduct the EmptyCells method, use the command below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>emptycells<span class="w"> </span>--mcool-path<span class="w"> </span>/absolute/path/to/mcool<span class="w"> </span><span class="se">\</span>
+<span class="w">     </span>--output<span class="w"> </span>/absolute/path/to/output
+</pre></div>
+</div>
+<dl class="simple">
+<dt>The results includes two csv file and one rank-plot png file:</dt><dd><ol class="arabic simple">
+<li><p>res.csv: in this file, the column “ambient” is False means the barcode is a high-quality barcode, and True means the barcode is a low-quality barcode.</p></li>
+<li><p>matrix.csv: it records the data for calculating the p-value.</p></li>
+<li><p>rank-plot.png: the rank-plot of the cells.</p></li>
+</ol>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="loop.html" class="btn btn-neutral float-left" title="detect the loop" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Wulab.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

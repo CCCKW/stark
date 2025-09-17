@@ -1,0 +1,4 @@
+*.pub
+yes
+*.pyc
+*.so

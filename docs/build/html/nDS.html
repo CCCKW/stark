@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculate the normlized detection score &mdash; STARK 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Accumlated Analysis" href="accum.html" />
+    <link rel="prev" title="Get imputed contact map" href="impute.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            STARK
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">What’s the STARK?</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">CLI_TUTORIAL</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">install the STARK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="count.html">preprocess the sc3DG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">3D model the sc3DG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="impute.html">Get imputed contact map</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Calculate the normlized detection score</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction-of-normalized-detection-score">introduction of normalized detection score</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculate-the-chromosome-territory-detection-score">calculate the chromosome territory detection score</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculate-the-chromosome-tads-detection-score">calculate the chromosome TADs detection score</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculate-the-chromosome-a-b-compartment-detection-score">calculate the chromosome A/B compartment detection score</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="accum.html">Accumlated Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="merge.html">Merge the topN/bottomN cell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ssce.html">Spatial Structure Capture Efficiency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gini.html">calculate the GiniQC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loop.html">detect the loop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emptycells.html">EmptyCells</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">STARK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Calculate the normlized detection score</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nDS.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="calculate-the-normlized-detection-score">
+<h1>Calculate the normlized detection score<a class="headerlink" href="#calculate-the-normlized-detection-score" title="Link to this heading"></a></h1>
+<p>Now, STARK support to calculate 4 kind of detection score, as follows:</p>
+<ul class="simple">
+<li><p>chromosome territory detection score</p></li>
+<li><p>chromosome TADs detection score</p></li>
+<li><p>chromosome A/B compartment detection score</p></li>
+</ul>
+<p>It is worth noting that nDS calculations often take a long time.</p>
+<p>The data needed for the test can be downloaded from <a class="reference external" href="www.baidu.com">here</a></p>
+<section id="introduction-of-normalized-detection-score">
+<h2>introduction of normalized detection score<a class="headerlink" href="#introduction-of-normalized-detection-score" title="Link to this heading"></a></h2>
+<p>Normalized Detection Scores (nDS) are utilized to evaluate the clarity of 3D genome structures, including chromosome territories, A/B compartments, and TADs. We have refined the approach introduced in scSPRITE, leveraging the high-throughput capabilities of single-cell sequencing while bypassing the requirement for pre-computed genome-wide 3D structural data. The Detection Scores (DS) are computed using the native contact matrix, which defines the frequency of interactions among various genomic bins. A higher DS for chromatin compartments in a cell, for instance, suggests a more pronounced preference for intra-chromosomal interactions over inter-chromosomal interactions.</p>
+<p>Detection scores were calculated for each structure in each cell as follows:</p>
+<p>Chromosome Territories. The unnormalized Detection Score (DS) for chromatin territories is calculated using the following formula:
+<span class="math notranslate nohighlight">\(DS_{terr} = \frac{O_{chr}^{intra}}{E_{chr}^{intra}} - \frac{O_{chr}^{inter}}{E_{chr}^{inter}}\)</span></p>
+<p>Here, <span class="math notranslate nohighlight">\(O_{chr}^{intra}\)</span> and <span class="math notranslate nohighlight">\(E_{chr}^{intra}\)</span> represent the observed and expected intra-chromosomal contact frequencies, respectively, while <span class="math notranslate nohighlight">\(O_{chr}^{inter}\)</span> and <span class="math notranslate nohighlight">\(E_{chr}^{inter}\)</span> denote the observed and expected inter-chromosomal contact frequencies. The DS of chromatin territory is calculated in different chromatin interactions, such as chr1-chr2, and does not include the same chromosome interaction, such as chr1-chr1, with a contact map resolution of 100 Kb. Thus, taking detection score of the chr1 and chr2 as an example, <span class="math notranslate nohighlight">\(E_{chr}^{intra}\)</span> is calculated as <span class="math notranslate nohighlight">\(N_1^c \times N_1^c + N_2^c \times N_2^c\)</span>, where <span class="math notranslate nohighlight">\(N_1^c\)</span> and <span class="math notranslate nohighlight">\(N_2^c\)</span> are the number of bins of chr1 and chr2. <span class="math notranslate nohighlight">\(E_{chr}^{inter}\)</span> is calculated as <span class="math notranslate nohighlight">\(N_1^c \times N_2^c \times 2\)</span>. Finally, <span class="math notranslate nohighlight">\(DS_{terr}\)</span> of a single cell is the mean of the different chromatin interactions’ DS.</p>
+<p>A/B compartments. In contrast to scSPRITE, which requires a prior bulk A/B compartment structural data, we leverage the high-throughput capacity of sc3DG-seq data. By merging the top 300 cells with the most contacts from each dataset or the entire dataset, we generate a pseudobulk data. This data is used to identify A/B compartments, creating a prior compartment annotation for subsequent single-cell DS calculation. This approach avoids the need for prior bulk data, which may not always be available. The unnormalized DS of A/B compartments is calculated as follows:
+<span class="math notranslate nohighlight">\(DS_{AB} = \frac{O_{AB}^{intra}}{E_{AB}^{intra}} - \frac{O_{AB}^{inter}}{E_{AB}^{inter}}\)</span></p>
+<p>Here, <span class="math notranslate nohighlight">\(O_{AB}^{intra}\)</span> and <span class="math notranslate nohighlight">\(E_{AB}^{intra}\)</span> represent the observed and expected contact frequencies within compartments, respectively, while <span class="math notranslate nohighlight">\(O_{AB}^{inter}\)</span> and <span class="math notranslate nohighlight">\(E_{AB}^{inter}\)</span> denote the observed and expected contact frequencies between compartments. The <span class="math notranslate nohighlight">\(DS_{AB}\)</span> of a cell is obtained by calculating the A/B compartment switches, which are transitions like ‘A-B-A’ or ‘B-A-B’, derived from the pseudobulk. Thus, taking a ‘A_1-B_1-A_2’ as an example, <span class="math notranslate nohighlight">\(E_{AB}^{intra}\)</span> is calculated as <span class="math notranslate nohighlight">\(N_1^A \times N_1^A + N_1^B \times N_1^B + N_2^A \times N_2^A\)</span>, where <span class="math notranslate nohighlight">\(N_1^A\)</span>, <span class="math notranslate nohighlight">\(N_1^B\)</span> and <span class="math notranslate nohighlight">\(N_2^A\)</span> are the number of bins of A_1 compartment, B_1 compartment and A_2 compartment. <span class="math notranslate nohighlight">\(E_{chr}^{inter}\)</span> is calculated as <span class="math notranslate nohighlight">\(N_1^B \times (N_1^A + N_2^A) \times 2\)</span>. Finally, <span class="math notranslate nohighlight">\(DS_{AB}\)</span> of a single cell is the mean of all transitions from pseudobulk. The calculation is performed on contact maps with a resolution of 100 Kb.</p>
+</section>
+<section id="calculate-the-chromosome-territory-detection-score">
+<h2>calculate the chromosome territory detection score<a class="headerlink" href="#calculate-the-chromosome-territory-detection-score" title="Link to this heading"></a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>nDS<span class="w"> </span>--mcool<span class="w"> </span>/absolute/path//data/nDS<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>/absolute/path//result/nDS/terr.txt<span class="se">\</span>
+<span class="w">    </span>--resolution<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--mode<span class="w"> </span>terr<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--top_num<span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--epoch<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--genome<span class="w"> </span>/absolute/path//hg38/hg38.fa
+</pre></div>
+</div>
+<p>If top_num is -1, the nDS of all cells is calculated; otherwise, topN is calculated.
+And The recommended setting for epoch is 10 or more</p>
+<p>And the output like this:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>chr1_chr2</p></th>
+<th class="head"><p>chr1_chr3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cell 1</p></td>
+<td><p>0.0549252</p></td>
+<td><p>0.0496</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cell 2</p></td>
+<td><p>0.0549252</p></td>
+<td><p>0.05123</p></td>
+</tr>
+</tbody>
+</table>
+<p>Row is the cell, and column is the chromosome interaction,
+You can average the values in the same row to get the nDS of the cell</p>
+</section>
+<section id="calculate-the-chromosome-tads-detection-score">
+<h2>calculate the chromosome TADs detection score<a class="headerlink" href="#calculate-the-chromosome-tads-detection-score" title="Link to this heading"></a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>nDS<span class="w"> </span>--mcool<span class="w"> </span>./data/mcool<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>./output/tads.nds.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--resolution<span class="w"> </span><span class="m">40000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--mode<span class="w"> </span>tads<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--top_num<span class="w"> </span>-1<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--describe<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--epoch<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+</pre></div>
+</div>
+<p>It is worth noting that nDS of TADs calculation takes a long time</p>
+</section>
+<section id="calculate-the-chromosome-a-b-compartment-detection-score">
+<h2>calculate the chromosome A/B compartment detection score<a class="headerlink" href="#calculate-the-chromosome-a-b-compartment-detection-score" title="Link to this heading"></a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>nDS<span class="w"> </span>--mcool<span class="w"> </span>./data/mcool<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>./output/compartment.nds.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--resolution<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--mode<span class="w"> </span>compartment<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--top_num<span class="w"> </span>-1<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--describe<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--epoch<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--genome<span class="w"> </span>./data/genome.fa
+</pre></div>
+</div>
+<p>If the genome file is not provided, the nDS of A/B compartment will not be calculated</p>
+<p>And the output like this:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>ab</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cell 1</p></td>
+<td><p>.0197576</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cell 2</p></td>
+<td><p>0.01627818</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="impute.html" class="btn btn-neutral float-left" title="Get imputed contact map" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="accum.html" class="btn btn-neutral float-right" title="Accumlated Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Wulab.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
