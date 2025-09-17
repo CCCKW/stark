@@ -8,13 +8,13 @@ import numpy as np
 import scipy.io as sp_io
 import os
 import pandas as pd
-
 pd.set_option("compute.use_numexpr", False)
 import scipy.sparse as sp_sparse
 import gzip
 import _io as io
-from sc3dg.utils import h5_constants as h5_constants
-from sc3dg.utils.feature_ref import FeatureReference, FeatureDef
+import h5_constants as h5_constants
+from feature_ref import FeatureReference, FeatureDef
+
 
 DEFAULT_DATA_DTYPE = 'int32'
 MATRIX_H5_VERSION = 2
@@ -26,7 +26,7 @@ def sum_sparse_matrix(matrix, axis=0):
     return np.squeeze(np.asarray(matrix.sum(axis=axis)))
 
 
-def makedirs(dst, allow_existing=False):
+def makedirs(dst, allow_existing=False):                                                                                                                                                                                               
     """ Create a directory recursively. Optionally succeed if already exists.
         Useful because transient NFS server issues may induce double creation attempts. """
     if allow_existing:
@@ -52,7 +52,7 @@ def open_maybe_gzip(filename, mode='r'):
     else:
         return open(filename, mode)
 
-    bufsize = 1024 * 1024  # 1MB of buffering
+    bufsize = 1024*1024  # 1MB of buffering
     if mode == 'r':
         return io.BufferedReader(raw, buffer_size=bufsize)
     elif mode == 'w':
@@ -75,8 +75,8 @@ def save_features_tsv(feature_ref, base_dir, compress, legacy=True):
         with open_maybe_gzip(out_features_fn, 'w') as f:
             for feature_def in feature_ref.feature_defs:
                 f.write(('\t'.join((feature_def.id,
-                                    feature_def.name,
-                                    feature_def.feature_type)) + '\n').encode('ascii'))
+                                   feature_def.name,
+                                   feature_def.feature_type)) + '\n').encode('ascii'))
 
 
 class CountMatrix(object):
@@ -84,10 +84,10 @@ class CountMatrix(object):
         # Features (genes, CRISPR gRNAs, antibody barcodes, etc.)
         self.feature_ref = feature_ref
         self.features_dim = len(feature_ref.feature_defs)
-        self.feature_ids_map = {f.id: f.index for f in feature_ref.feature_defs}
+        self.feature_ids_map = { f.id: f.index for f in feature_ref.feature_defs }
 
         # Cell barcodes
-        bcs = np.array(bcs, dtype='S', copy=False)
+        bcs = np.array(bcs, dtype='S')
         bcs.flags.writeable = False
         self.bcs = bcs
         self.bcs_dim, = self.bcs.shape
@@ -122,7 +122,7 @@ class CountMatrix(object):
         feature_ref = FeatureReference(feature_defs, [])
         matrix = sp_sparse.csc_matrix(df.values.astype(int))
         mat = CountMatrix(feature_ref, barcodes, matrix)
-
+        
         return mat
 
     @staticmethod
@@ -147,8 +147,7 @@ class CountMatrix(object):
                 raise IOError("Required file not found: %s" % filepath)
         barcodes = pd.read_csv(barcodes_tsv, delimiter='\t', header=None, usecols=[0]).values.squeeze()
         genes = pd.read_csv(genes_tsv, delimiter='\t', header=None, usecols=[0, 1], names=['gene_id', 'name'])
-        feature_defs = [FeatureDef(idx, row['gene_id'], row['name'], "Gene Expression", []) for idx, row in
-                        genes.iterrows()]
+        feature_defs = [FeatureDef(idx, row['gene_id'], row['name'], "Gene Expression", []) for idx, row in genes.iterrows()]
         feature_ref = FeatureReference(feature_defs, [])
 
         matrix = sp_io.mmread(matrix_mtx)
@@ -219,16 +218,16 @@ class CountMatrix(object):
 
         old_feature_defs = [self.feature_ref.feature_defs[i] for i in indices]
 
-        updated_feature_defs = [FeatureDef(index=i,
-                                           id=fd.id,
-                                           name=fd.name,
-                                           feature_type=fd.feature_type,
-                                           tags=fd.tags
-                                           )
-                                for (i, fd) in enumerate(old_feature_defs)]
+        updated_feature_defs = [FeatureDef( index = i,
+                                            id = fd.id,
+                                            name = fd.name,
+                                            feature_type = fd.feature_type,
+                                            tags = fd.tags
+                                          )
+                                          for (i, fd) in enumerate(old_feature_defs)]
 
-        feature_ref = FeatureReference(feature_defs=updated_feature_defs,
-                                       all_tag_keys=self.feature_ref.all_tag_keys)
+        feature_ref = FeatureReference(feature_defs = updated_feature_defs,
+                                       all_tag_keys = self.feature_ref.all_tag_keys)
 
         return CountMatrix(feature_ref=feature_ref,
                            bcs=self.bcs,
@@ -302,7 +301,7 @@ class CountMatrix(object):
             # write shape spec
             stream.write(np.compat.asbytes('%i %i %i\n' % (rows, cols, self.m.nnz)))
             # write row, col, val in 1-based indexing
-            for r, c, d in zip(self.m.row + 1, self.m.col + 1, self.m.data):
+            for r, c, d in zip(self.m.row+1, self.m.col+1, self.m.data):
                 stream.write(np.compat.asbytes(("%i %i %i\n" % (r, c, d))))
 
         # both GEX and ATAC provide an implementation of this in respective feature_ref.py
