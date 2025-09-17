@@ -658,12 +658,16 @@ def bowtie_align_barcode(fastq_dir, filename, ref_10x, read_type='R1'):
     cmd = f'zcat {input_file} | bowtie -p 10 -x {ref_10x} - --nofw -m 1 -v 1 -S {output_file}'
     return run_cmd_return_time(cmd)
 
-def modify_sam_format(code_dir, fastq_dir, filename, read_type='R1'):
-    """修改SAM文件格式"""
+def modify_sam_format(fastq_dir, filename, read_type='R1'):
+    """修改SAM文件格式 - 使用sc3dg.utils模块"""
+    from sc3dg.utils.modify_sam import main as modify_sam_main
+    
     input_sam = f'{fastq_dir}/{filename}_{read_type}_BC.sam'
     output_sam = f'{fastq_dir}/{filename}_{read_type}_BC_modified.sam'
-    cmd = f'python {code_dir}/modify_sam.py {input_sam} {output_sam}'
-    return run_cmd_return_time(cmd)
+    
+    t = time.time()
+    modify_sam_main(input_sam, output_sam)
+    return time.time() - t
 
 def merge_and_filter_reads(fastq_dir, filename):
     """合并、排序、筛选有效配对reads"""
@@ -685,13 +689,17 @@ def merge_and_filter_reads(fastq_dir, filename):
     
     return time1 + time2 + time3 + time4
 
-def reconstruct_fastq_with_barcode(code_dir, fastq_dir, filename):
-    """重建包含barcode信息的FASTQ文件"""
+def reconstruct_fastq_with_barcode(fastq_dir, filename):
+    """重建包含barcode信息的FASTQ文件 - 使用sc3dg.utils模块"""
+    from sc3dg.utils.recon_fq import main as recon_fq_main
+    
     input_sam = f'{fastq_dir}/{filename}_paired_only.sam'
     output_r1 = f'{fastq_dir}/{filename}_R1_BC_cov.fq'
     output_r3 = f'{fastq_dir}/{filename}_R3_BC_cov.fq'
-    cmd = f'python {code_dir}/recon_fq.py {input_sam} {output_r1} {output_r3}'
-    return run_cmd_return_time(cmd)
+    
+    t = time.time()
+    recon_fq_main(input_sam, output_r1, output_r3)
+    return time.time() - t
 
 def cleanup_intermediate_files(fastq_dir, filename):
     """清理中间文件"""
@@ -808,4 +816,69 @@ def bwa_mem_specific(bwaindex, threads, filename, trim_dir, input_r1, input_r3):
     """BWA mem比对的特定实现"""
     output_bam = f'{trim_dir}/{filename}.bam'
     cmd = f'bwa mem -SP5M {bwaindex} -t {threads} {input_r1} {input_r3} | samtools view -bhS -@ 5 - > {output_bam}'
+    return run_cmd_return_time(cmd)
+
+def process_droplet_barcode_steps(opt, fastq, fastq_dir, threads):
+    """处理droplet特有的barcode处理步骤"""
+    start_time = time.time()
+    
+    # 2. Bowtie比对barcode (并行)
+    import threading
+    
+    def align_r1():
+        return bowtie_align_barcode(fastq_dir, fastq, opt['ref_10x'], 'R1')
+    
+    def align_r3():
+        return bowtie_align_barcode(fastq_dir, fastq, opt['ref_10x'], 'R3')
+    
+    thread1 = threading.Thread(target=align_r1)
+    thread2 = threading.Thread(target=align_r3)
+    thread1.start()
+    thread2.start()
+    thread1.join()
+    thread2.join()
+    
+    # 3. 修改SAM格式 (并行)
+    def modify_r1():
+        return modify_sam_format(fastq_dir, fastq, 'R1')
+    
+    def modify_r3():
+        return modify_sam_format(fastq_dir, fastq, 'R3')
+    
+    thread1 = threading.Thread(target=modify_r1)
+    thread2 = threading.Thread(target=modify_r3)
+    thread1.start()
+    thread2.start()
+    thread1.join()
+    thread2.join()
+    
+    # 4. 合并、排序、筛选
+    merge_and_filter_reads(fastq_dir, fastq)
+    
+    # 5. 重建FASTQ
+    reconstruct_fastq_with_barcode(fastq_dir, fastq)
+    
+    return time.time() - start_time
+
+def cleanup_droplet_intermediate_files(fastq_dir, filename):
+    """清理droplet中间文件"""
+    files_to_remove = [
+        f'{fastq_dir}/{filename}_R1_BC.sam',
+        f'{fastq_dir}/{filename}_R3_BC.sam', 
+        f'{fastq_dir}/{filename}_R1_BC_modified.sam',
+        f'{fastq_dir}/{filename}_R3_BC_modified.sam',
+        f'{fastq_dir}/{filename}_sorted_merged_name.bam',
+        f'{fastq_dir}/{filename}_paired_only.bam',
+        f'{fastq_dir}/{filename}_paired_only.sam',
+        f'{fastq_dir}/{filename}_R1_BC_cov.fq',
+        f'{fastq_dir}/{filename}_R3_BC_cov.fq'
+    ]
+    
+    for file_path in files_to_remove:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+def bwa_mem_droplet(bwaindex, threads, fastq):
+    """droplet专用的BWA比对"""
+    cmd = f'bwa mem -SP5M {bwaindex} -t {threads} trimmed-pair1.fastq.gz trimmed-pair2.fastq.gz > {fastq}.sam'
     return run_cmd_return_time(cmd)
