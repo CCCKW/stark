@@ -1,15 +1,3 @@
-#!/usr/bin/env python
-#
-# Copyright (c) 2018 10X Genomics, Inc. All rights reserved.
-#
-
-"""
-Simple Good-Turing estimator.
-Based on S implementation in
-  William A. Gale & Geoffrey Sampson (1995) Good-turing frequency estimation without tears,
-  Journal of Quantitative Linguistics, 2:3, 217-237, DOI: 10.1080/09296179508590051
-"""
-
 import numpy as np
 import scipy.stats as sp_stats
 import itertools
@@ -28,64 +16,68 @@ def _averaging_transform(r, nr):
 def _rstest(r, coef):
     return r * np.power(1 + 1/r, 1 + coef)
 
-def simple_good_turing(xr, xnr):
-    """Make a Simple Good-Turing estimate of the frequencies.
-
+def simple_good_turing(xr, xnr, discount=0.75):
+    """Make a Simple Good-Turing or Kneser-Ney smoothing estimate of the frequencies.
+    
     Args:
-      xr (np.array(int)): Non-zero item frequencies
-      xnr (np.array(int)): Non-zero frequencies of frequencies
+        xr (np.array(int)): Non-zero item frequencies
+        xnr (np.array(int)): Non-zero frequencies of frequencies
+        discount (float): The discount parameter for Kneser-Ney smoothing
+        
     Returns:
-      (rstar (np.array(float)), p0 (float)):
-        rstar: The adjusted non-zero frequencies
-        p0: The total probability of unobserved items
+        (rstar (np.array(float)), p0 (float)):
+            rstar: The adjusted non-zero frequencies
+            p0: The total probability of unobserved items
     """
-
     xr = xr.astype(float)
     xnr = xnr.astype(float)
-
-    xN = np.sum(xr*xnr)
-
+    xN = np.sum(xr * xnr)
+    
     # Get Linear Good-Turing estimate
     xnrz = _averaging_transform(xr, xnr)
     slope, intercept, _, _, _ = sp_stats.linregress(np.log(xr), np.log(xnrz))
-
+    print(slope)
+    
     if slope > -1:
-        raise SimpleGoodTuringError("The log-log slope is > -1 (%d); the SGT estimator is not applicable to these data." % slope)
-
-    xrst = _rstest(xr,slope)
-    xrstrel = xrst/xr
-
-    # Get traditional Good-Turing estimate
-    xrtry = xr == np.concatenate((xr[1:]-1, np.zeros(1)))
-    xrstarel = np.zeros(len(xr))
-    xrstarel[xrtry] = (xr[xrtry]+1) / xr[xrtry] * \
-                      np.concatenate((xnr[1:], np.zeros(1)))[xrtry] / xnr[xrtry]
-
-    # Determine when to switch from GT to LGT estimates
-    tursd = np.ones(len(xr))
-    for i in range(len(xr)):
-        if xrtry[i]:
-            tursd[i] = float(i+2) / xnr[i] * np.sqrt(xnr[i+1] * (1 + xnr[i+1]/xnr[i]))
-
-    xrstcmbrel = np.zeros(len(xr))
-    useturing = True
-    for r in range(len(xr)):
-        if not useturing:
-            xrstcmbrel[r]  = xrstrel[r]
-        else:
-            if np.abs(xrstrel[r]-xrstarel[r]) * (1+r)/tursd[r] > 1.65:
-                xrstcmbrel[r] = xrstarel[r]
-            else:
-                useturing = False
+        # Use Kneser-Ney smoothing if slope > -1
+        rstar = np.maximum(xr - discount, 0) / xN
+        p0 = discount / xN * len(xr)
+        rstar = rstar / np.sum(rstar)
+    else:
+        # Use Simple Good-Turing estimation
+        xrst = _rstest(xr, slope)
+        xrstrel = xrst / xr
+        
+        # Get traditional Good-Turing estimate
+        xrtry = xr == np.concatenate((xr[1:] - 1, np.zeros(1)))
+        xrstarel = np.zeros(len(xr))
+        xrstarel[xrtry] = (xr[xrtry] + 1) / xr[xrtry] * \
+                          np.concatenate((xnr[1:], np.zeros(1)))[xrtry] / xnr[xrtry]
+        
+        # Determine when to switch from GT to LGT estimates
+        tursd = np.ones(len(xr))
+        for i in range(len(xr)):
+            if xrtry[i]:
+                tursd[i] = float(i + 2) / xnr[i] * np.sqrt(xnr[i + 1] * (1 + xnr[i + 1] / xnr[i]))
+        
+        xrstcmbrel = np.zeros(len(xr))
+        useturing = True
+        for r in range(len(xr)):
+            if not useturing:
                 xrstcmbrel[r] = xrstrel[r]
-
-    # Renormalize the probabilities for observed objects
-    sumpraw = np.sum(xrstcmbrel * xr * xnr / xN)
-
-    xrstcmbrel = xrstcmbrel * (1 - xnr[0] / xN) / sumpraw
-    p0 = xnr[0]/xN
-
-    return (xr * xrstcmbrel, p0)
+            else:
+                if np.abs(xrstrel[r] - xrstarel[r]) * (1 + r) / tursd[r] > 1.65:
+                    xrstcmbrel[r] = xrstarel[r]
+                else:
+                    useturing = False
+                    xrstcmbrel[r] = xrstrel[r]
+        
+        # Renormalize the probabilities for observed objects
+        sumpraw = np.sum(xrstcmbrel * xr * xnr / xN)
+        rstar = xrstcmbrel * (1 - xnr[0] / xN) / sumpraw
+        p0 = xnr[0] / xN
+    
+    return (xr * rstar, p0)
 
 def sgt_proportions(frequencies):
     """Use Simple Good-Turing estimate to adjust for unobserved items
