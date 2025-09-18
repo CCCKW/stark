@@ -4,7 +4,7 @@ Clustering
 STARK has built-in clustering algorithms such as Higashi, Fast-higashi, deepnanoHi-C, and schicluster. These algorithms are all based on clustering from pairs.gz files.
 
 
-To calculate the SSCE, you can use the following command:
+To run clustering, use the following command:
 
 .. code-block:: shell
 
@@ -20,6 +20,15 @@ example:
         --config config.json
 
 The configuration file should be in JSON format and include the following fields:
+
+Attention:
+
+if you want to running Higashi, Fast-Higashi or DeepnanoHi-C, you need to install torch and cuda first.
+
+You find the installation instructions here: https://pytorch.org/get-started/locally/
+
+
+
 
 Higashi:
 

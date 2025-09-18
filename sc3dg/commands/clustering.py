@@ -3,14 +3,14 @@ import pandas as pd
 
 
 @click.command('clustering', short_help='clustering')
-@click.option('--method',  help='mcool path',required=True, default='higashi', type=click.Choice(['higashi', 'fasthigashi', 'deepNanoHiC','schicluster'], case_sensitive=False))
+@click.option('--method',  help='method',required=True, default='higashi', type=click.Choice(['higashi', 'fasthigashi', 'deepNanoHiC','schicluster'], case_sensitive=False))
 @click.option('--config',  help='config',required=True, default=None)
 
 
 def clustering(method, config):
 
-    if method not in ['higashi', 'fasthigashi', 'deepNanoHiC']:
-        raise ValueError("Method must be one of 'higashi', 'fasthigashi', or 'deepNanoHiC'")
+    if method not in ['higashi', 'fasthigashi', 'deepNanoHiC', 'schicluster']:
+        raise ValueError("Method must be one of 'higashi', 'fasthigashi','deepNanoHiC', 'schicluster'")
 
     if method == 'higashi':
         from sc3dg.clustering.re_higashi.higashi_pipe import workflow as higashi_clustering

@@ -34,7 +34,7 @@ def run_exec(type_, opt, fq, log_out):
 @click.option('-o', '--output', help='Save path', required=True)
 @click.option('-f', '--fastq', required=True, help='Fastq directory, run all if -s is not specified')
 @click.option('--logging', help='Logging file path', default='./log.log')
-@click.option('-t', '--type', required=True, type=click.Choice(['scHic', 'snHic', 'sciHic', 'scSPRITE', 'dipC', 'sn_m3c', 'HIRES', 'scNano', 'scMethyl', 'LiMAC', 'paired','droplet','GAGE-seq']), help='Type of Hi-C')
+@click.option('-t', '--type_', required=True, type=click.Choice(['scHic', 'snHic', 'sciHic', 'scSPRITE', 'dipC', 'sn_m3c', 'HIRES', 'scNano', 'scMethyl', 'LiMAC', 'paired','droplet','GAGE-seq']), help='Type of Hi-C')
 @click.option('-e', '--enzyme', help='Enzyme, e.g., mboi', required=True, type=str)
 @click.option('-r', '--resolution', help='Resolution', default=10000, type=int)
 @click.option('-i', '--index', help='BWA fa file/Bowtie fa file', required=True)
@@ -111,7 +111,7 @@ def count(output, fastq, logging, type_, enzyme, resolution, index, sample, exis
     opt['species'] = tl.parse_species(opt)
     
     # droplet类型的特殊检查
-    if opt['type'] == 'droplet' or opt['type'] == 'GAGE-seq':
+    if opt['type'] == 'droplet' or opt['type'] == 'Paired':
         # check bowtie
         def check_bowtie():
             try:
@@ -140,12 +140,12 @@ def count(output, fastq, logging, type_, enzyme, resolution, index, sample, exis
             return
             
         # 检查droplet必需的配置
-        if opt['type'] == 'droplet':
-            required_configs = ['ref_10x']
-            for config in required_configs:
-                if not opt[config]:
-                    print(f"Error: --{config.replace('_', '-')} is required for droplet Hi-C processing")
-                    return
+        
+        required_configs = ['ref_10x']
+        for config in required_configs:
+            if not opt[config]:
+                print(f"Error: --{config.replace('_', '-')} is required for droplet Hi-C processing")
+                return
 
     # global logging
     log_out = tl.log_(opt)

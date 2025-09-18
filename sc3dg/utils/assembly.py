@@ -5,7 +5,7 @@ import subprocess
 import time
 import os
 import logging
-from .scaffold import *
+from sc3dg.utils.scaffold import *
 import pandas as pd
 from joblib import Parallel, delayed
 
@@ -71,12 +71,16 @@ def assembly(type_,opt, fastq,log_out):
         logging.info(f'hictools_combine: {t}')
         
         # 2-5. droplet特有的barcode处理步骤
-        t = process_droplet_barcode_steps(opt, fastq, fastq_dir, threads)
-        logging.info(f'droplet_barcode_processing: {t}')
+        filename = fastq.split('_R1')[0]
+        print(fastq,fastq_dir,filename)
+       
         
-        # 6. fastp质控 - 使用droplet处理后的文件
-        fq_r1_processed = f'{fastq_dir}/{fastq}_R1_BC_cov.fq'
-        fq_r2_processed = f'{fastq_dir}/{fastq}_R3_BC_cov.fq'
+        t = process_droplet_barcode_steps(opt, filename, fastq_dir, threads)
+        logging.info(f'droplet_barcode_processing: {t}')
+        # sys.exit()
+        # # 6. fastp质控 - 使用droplet处理后的文件
+        fq_r1_processed = f'{fastq_dir}/{filename}_R1_BC_cov.fq'
+        fq_r2_processed = f'{fastq_dir}/{filename}_R3_BC_cov.fq'
         
         t = fastp(fq_r1_processed, fq_r2_processed, 
                   'trimmed-pair1.fastq.gz', 'trimmed-pair2.fastq.gz',
@@ -84,7 +88,7 @@ def assembly(type_,opt, fastq,log_out):
         logging.info('fastp::: %s '%t)
         
         # 7. 清理droplet特有的中间文件
-        cleanup_droplet_intermediate_files(fastq_dir, fastq)
+        cleanup_droplet_intermediate_files(fastq_dir, filename)
         
     elif opt['exist_barcode']:
         # 其他有barcode的类型处理
@@ -219,12 +223,17 @@ def assembly(type_,opt, fastq,log_out):
     t = cooelr_zoomify(fastq, opt['resolution'], opt['zoomify_res'])
     logging.info('cooelr_zoomify::: %s '%t)
 
-    # 单细胞分析处理
+    # 单细胞分析处理 
     if opt['exist_barcode']:
         if type_ == 'GAGE-seq':
             from sc3dg.utils.parseSCpairs import main as split_cells
-            split_cells(fastq, './Result/SCpair')
+            split_cells(fastq + '.restrict.pairs.gz', './Result/SCpair')
+        elif type_ == 'droplet' or type_ == 'Paired':
+            from sc3dg.utils.splitCell import split_pairs_by_barcode as split_cells
+            os.makedirs('./Result/SCpair', exist_ok=True)
+            split_cells(fastq + '.restrict.pairs.gz', './Result/SCpair/')
         else:
+            from sc3dg.utils.scaffold import split_cells
             split_cells(fastq)
         t = time.time()
         pair_list = []

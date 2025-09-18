@@ -133,7 +133,7 @@ def cooler_cload_pairs(genomesize, res, fastq, prefix=''):
 def cooelr_zoomify(fastq,res, resz):
     cmd = 'cooler zoomify '  + \
         fastq + '_' +str(res) + \
-        '.cool -r ' + ','.join(resz) + ' -o ' + fastq + '.mcool'
+        '.cool -r ' + resz + ' -o ' + fastq + '.mcool'
     return run_cmd_return_time(cmd)
 
 def find_substring_in_long_string(long_string, substrings):
@@ -648,9 +648,13 @@ def snHic_barcode(file1_path, file2_path):
 
 def hictools_combine(fastq_dir, filename, combine_type='atac'):
     """使用hictools合并Hi-C数据"""
+    # move _i.fast.gz 转化为 _Ri.fq.gz
+ 
     cmd = f'hictools combine_hic {combine_type} {fastq_dir}/{filename}'
-    return run_cmd_return_time(cmd)
-
+    tmp = run_cmd_return_time(cmd)
+    # 还原
+  
+    return tmp
 def bowtie_align_barcode(fastq_dir, filename, ref_10x, read_type='R1'):
     """使用Bowtie比对barcode"""
     input_file = f'{fastq_dir}/{filename}_{read_type}_combined.fq.gz'
@@ -660,7 +664,7 @@ def bowtie_align_barcode(fastq_dir, filename, ref_10x, read_type='R1'):
 
 def modify_sam_format(fastq_dir, filename, read_type='R1'):
     """修改SAM文件格式 - 使用sc3dg.utils模块"""
-    from sc3dg.utils.modify_sam import main as modify_sam_main
+    from sc3dg.utils.modify_sam import modify_sam_file as modify_sam_main
     
     input_sam = f'{fastq_dir}/{filename}_{read_type}_BC.sam'
     output_sam = f'{fastq_dir}/{filename}_{read_type}_BC_modified.sam'
@@ -691,7 +695,7 @@ def merge_and_filter_reads(fastq_dir, filename):
 
 def reconstruct_fastq_with_barcode(fastq_dir, filename):
     """重建包含barcode信息的FASTQ文件 - 使用sc3dg.utils模块"""
-    from sc3dg.utils.recon_fq import main as recon_fq_main
+    from sc3dg.utils.recon_fq import sam_to_paired_fastq as recon_fq_main
     
     input_sam = f'{fastq_dir}/{filename}_paired_only.sam'
     output_r1 = f'{fastq_dir}/{filename}_R1_BC_cov.fq'
@@ -756,7 +760,7 @@ def process_droplet_hic(opt, fastq, log_out):
         thread2.join()
         
         log_out.info('bowtie比对完成')
-        
+       
         # 3. 修改SAM文件格式 (并行处理)
         def modify_r1():
             return modify_sam_format(code_dir, fastq_dir, filename, 'R1')

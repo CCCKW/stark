@@ -32,7 +32,7 @@ def cli():
             accum           accumulative analysis \n
             nDS             calculate the nDS \n
             gini            calculate the gini \n
-            loop            detect the loop
+            loop            detect the loop \n
             clustring       using higashi,fasthigshi,deepNanoHIiC to clustring the single cell \n
             
 
