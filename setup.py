@@ -471,7 +471,12 @@ setup(
                              'sc3dg.samtools',
                              'sc3dg.bedtools',
                              'sc3dg.bedtools.bin',
-                              'sc3dg.hictools'  # 添加这一行
+                              'sc3dg.hictools',
+                              'sc3dg.clustering',
+                              'sc3dg.clustering.re_higashi',
+                              'sc3dg.clustering.re_fasthigashi',
+                              'sc3dg.clustering.re_scHicluster',
+                              'sc3dg.clustering.re_DeepNanoHiC'
                         
         
                              ],
@@ -502,6 +507,7 @@ setup(
         'sc3dg.bowtie2': ['bowtie2/**/*'],
         'sc3dg.minimap2': ['minimap2/**/*'],
         'sc3dg.bwa': ['bwa/**/*'],
+        'sc3dg.clustering': ['**/*']
         
     },
     install_requires=install_requires,
