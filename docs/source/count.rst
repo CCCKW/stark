@@ -313,7 +313,7 @@ Please make sure you have installed bowtie before running
 
 .. code-block:: bash
 
-    conda install bioconda::bowtie
+    conda install bioconda::bowtie==1.3.1
 
 after that, you need to build the bowtie index for the 10x barcode reference.
 
@@ -328,12 +328,13 @@ Then you can run the following command to process the droplet data.
 .. code-block:: bash
 
     stark count -t droplet \
-        --ref-10x /path/to/10x/bowtie/index \
-        -f /path/to/fastq/dir \
-        -i /path/to/bwa/index \
-        -o /output/path \
-        --exist-barcode \
-        --thread 32
+            --ref-10x /path/to/bowtie/index \
+            -f /absolute/path/to/data/droplet \
+            -i /cluster2/home/Kangwen/common/mm10/mm10.fa \
+            -e MboI \
+            -o /absolute/path/to/mm10/mm10.fa \
+            --exist-barcode \
+            --thread 32
 
 Parameter Description:
 
@@ -356,7 +357,7 @@ Please make sure you have installed bowtie before running
 
 .. code-block:: bash
 
-    conda install bioconda::bowtie
+    conda install bioconda::bowtie==1.3.1
 
 after that, you need to build the bowtie index for the 10x barcode reference.
 
@@ -371,12 +372,13 @@ Then you can run the following command to process the droplet data.
 .. code-block:: bash
 
     stark count -t Paired \
-        --ref-10x /path/to/10x/bowtie/index \
-        -f /path/to/fastq/dir \
-        -i /path/to/bwa/index \
-        -o /output/path \
-        --exist-barcode \
-        --thread 32
+            --ref-10x /path/to/bowtie/index \
+            -f /absolute/path/to/data/droplet \
+            -i /cluster2/home/Kangwen/common/mm10/mm10.fa \
+            -e MboI \
+            -o /absolute/path/to/mm10/mm10.fa \
+            --exist-barcode \
+            --thread 32
 
 Parameter Description:
 

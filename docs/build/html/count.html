@@ -348,7 +348,7 @@
 <span id="droplet"></span><h3>14. Droplet Hi-C<a class="headerlink" href="#droplet-hi-c" title="Link to this heading"></a></h3>
 <p>Test data: /tutorial/Droplet/data</p>
 <p>Please make sure you have installed bowtie before running</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>bioconda::bowtie
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>bioconda::bowtie<span class="o">==</span><span class="m">1</span>.3.1
 </pre></div>
 </div>
 <p>after that, you need to build the bowtie index for the 10x barcode reference.</p>
@@ -357,12 +357,13 @@
 </div>
 <p>Then you can run the following command to process the droplet data.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-t<span class="w"> </span>droplet<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--ref-10x<span class="w"> </span>/path/to/10x/bowtie/index<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-f<span class="w"> </span>/path/to/fastq/dir<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-i<span class="w"> </span>/path/to/bwa/index<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-o<span class="w"> </span>/output/path<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--exist-barcode<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--thread<span class="w"> </span><span class="m">32</span>
+<span class="w">        </span>--ref-10x<span class="w"> </span>/path/to/bowtie/index<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-f<span class="w"> </span>/absolute/path/to/data/droplet<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-i<span class="w"> </span>/cluster2/home/Kangwen/common/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-e<span class="w"> </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-o<span class="w"> </span>/absolute/path/to/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--exist-barcode<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--thread<span class="w"> </span><span class="m">32</span>
 </pre></div>
 </div>
 <p>Parameter Description:</p>
@@ -378,7 +379,7 @@
 <span id="id14"></span><h3>15. Paired<a class="headerlink" href="#paired" title="Link to this heading"></a></h3>
 <p>Test data: /tutorial/Paired/data</p>
 <p>Please make sure you have installed bowtie before running</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>bioconda::bowtie
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>bioconda::bowtie<span class="o">==</span><span class="m">1</span>.3.1
 </pre></div>
 </div>
 <p>after that, you need to build the bowtie index for the 10x barcode reference.</p>
@@ -387,12 +388,13 @@
 </div>
 <p>Then you can run the following command to process the droplet data.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>count<span class="w"> </span>-t<span class="w"> </span>Paired<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--ref-10x<span class="w"> </span>/path/to/10x/bowtie/index<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-f<span class="w"> </span>/path/to/fastq/dir<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-i<span class="w"> </span>/path/to/bwa/index<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-o<span class="w"> </span>/output/path<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--exist-barcode<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--thread<span class="w"> </span><span class="m">32</span>
+<span class="w">        </span>--ref-10x<span class="w"> </span>/path/to/bowtie/index<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-f<span class="w"> </span>/absolute/path/to/data/droplet<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-i<span class="w"> </span>/cluster2/home/Kangwen/common/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-e<span class="w"> </span>MboI<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-o<span class="w"> </span>/absolute/path/to/mm10/mm10.fa<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--exist-barcode<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--thread<span class="w"> </span><span class="m">32</span>
 </pre></div>
 </div>
 <p>Parameter Description:</p>

@@ -89,7 +89,7 @@
   <section id="clustering">
 <h1>Clustering<a class="headerlink" href="#clustering" title="Link to this heading"></a></h1>
 <p>STARK has built-in clustering algorithms such as Higashi, Fast-higashi, deepnanoHi-C, and schicluster. These algorithms are all based on clustering from pairs.gz files.</p>
-<p>To calculate the SSCE, you can use the following command:</p>
+<p>To run clustering, use the following command:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>stark<span class="w"> </span>clustering<span class="w"> </span>--method<span class="w"> </span>&lt;method_name&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--config<span class="w"> </span>&lt;config_file&gt;<span class="w"> </span><span class="se">\</span>
 </pre></div>
@@ -100,6 +100,9 @@
 </pre></div>
 </div>
 <p>The configuration file should be in JSON format and include the following fields:</p>
+<p>Attention:</p>
+<p>if you want to running Higashi, Fast-Higashi or DeepnanoHi-C, you need to install torch and cuda first.</p>
+<p>You find the installation instructions here: <a class="reference external" href="https://pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a></p>
 <p>Higashi:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;data_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/final_dir&quot;</span><span class="p">,</span>

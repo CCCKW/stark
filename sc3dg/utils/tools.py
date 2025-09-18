@@ -94,7 +94,7 @@ def count_sample(opt:dict):
     fastq_log = []
     for root, dir_, files in os.walk(opt['fastq']):
         for file in files:
-            if file.endswith('_1.fastq.gz') or file.endswith('_1.fastq'):
+            if file.endswith('_1.fastq.gz') or file.endswith('_1.fastq') or file.endswith('_R1.fq.gz') or file.endswith('_R1.fastq'):
                 fastq_log.append(file.split('_1.fastq')[0])
    
     
@@ -103,16 +103,16 @@ def count_sample(opt:dict):
     fastq_dir = []
     for root, dir_, files in os.walk(opt['fastq']):
        for file in files:
-            if '_1.fastq' in file:
+            if '_1.fastq' in file or '_R1.fq' in file:
                fastq_dir.append(root+'/'+file)
       
     
     fastq_dir_final = []
-
+    print(fastq_log)
     for val in fastq_log:
-        flag, file = return_(val, fastq_dir)
+        flag, file_ = return_(val, fastq_dir)
         if flag:
-            fastq_dir_final.append(root + '/' + file)
+            fastq_dir_final.append(root + '/' + file_)
         else:
             sys.exit('fastq_dir is not exist')
 
@@ -145,7 +145,7 @@ def count_sample(opt:dict):
     return opt, opt['fastq_log']
 
 def return_(val, files):
-    # print(val,files)
+    print(val,files)
     for f in files:
         if val in f:
             return True, f

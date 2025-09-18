@@ -13,7 +13,7 @@ def open_file(filename, mode='rt'):
 
 def main(input_file, output_dir="./scPairDir"):
     """Split .pairs or .pairs.gz file by CellBarcode (extracted from 2nd and 3rd underscore-separated fields)."""
-    
+    print('kcw', input_file, output_dir)
     # 初始化变量
     Head_info = []
     scPairDict = {}
